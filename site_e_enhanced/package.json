@@ -1,0 +1,9 @@
+{
+  "name": "ruishu-site-e-template",
+  "version": "1.0.0",
+  "description": "瑞数 WAF 补环境方案 — 站点E（研究院）示例（sdenv + jsdom 同步 flush）",
+  "private": true,
+  "dependencies": {
+    "sdenv": "^1.1.3"
+  }
+}

@@ -1,0 +1,21 @@
+# 本地维护文件（含真实站点映射，勿提交）
+sites_mapping.local.md
+
+# Node 依赖
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+
+# 运行时产物（每次挑战动态生成，可随时重抓）
+output/
+_run_tmp.js
+# - 412 挑战页 / 200 成功页等 HTML 保存结果
+# - rs-reverse 提取的 ts.json / vm.js / O-cookie
+# - Chrome 持久 profile
+*.html
+o_cookie.txt
+ts.json
+vm.js
+cdp_profile/

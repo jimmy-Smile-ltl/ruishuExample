@@ -1,0 +1,9 @@
+{
+  "name": "ruishu-site-d-sdenv-chain",
+  "version": "1.0.0",
+  "description": "瑞数多阶段链式补环境: sdenv jsdomFromText 本地执行 VM",
+  "private": true,
+  "dependencies": {
+    "sdenv": "^1.1.3"
+  }
+}

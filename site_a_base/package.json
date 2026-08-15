@@ -1,0 +1,9 @@
+{
+  "name": "ruishu-sdenv-template",
+  "version": "1.0.0",
+  "description": "瑞数 WAF sdenv 补环境方案 — 大学高校通用模板",
+  "private": true,
+  "dependencies": {
+    "sdenv": "^1.1.3"
+  }
+}
