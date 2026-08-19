@@ -1,6 +1,6 @@
 # 站点A（高校组）— 大学高校瑞数 WAF 绕过方案集
 
-来源：高校组瑞数实战（原 pro36），2026-08-13 实测整理。
+来源：高校组瑞数实战（原 pro36），2026-08-13 整理，**2026-08-19 复测确认**。
 5 所使用瑞数 WAF 的高校官网，5 条可行方案（全部实测 5/5），最小可验证代码。
 
 > 匿名化说明：站名使用代号（高校1-5），官网 URL 为 base64 编码。
@@ -21,8 +21,8 @@
 | 方案 | 文件 | 通过率 | 单页耗时 | 内核/协议 | 定位 |
 |------|------|--------|---------|-----------|------|
 | **ruyiPage** | `spider_ruyipage.py` | **5/5** | **2-3s** | Firefox / WebDriver BiDi | 🏆 首选（每tab独立代理） |
-| **CDP 零注入** | `spider_cdp.py` | **5/5** | 1-5s | 真实 Chrome / CDP | Chrome 系首选（无第三方内核） |
-| sdenv 补环境 | `spider_sdenv.py` + `generate_cookie.js` | 5/5 | 4-8s | 纯 Node + curl_cffi | 无浏览器部署 |
+| **CDP 零注入** | `spider_cdp.py` | **5/5** | 5-6s | 真实 Chrome / CDP | Chrome 系首选（无第三方内核） |
+| sdenv 补环境 | `spider_sdenv.py` + `generate_cookie.js` | 5/5 | 13-15s | 纯 Node + curl_cffi | 无浏览器部署 |
 | Camoufox | `spider_camoufox.py` | 5/5* | 2-10s | Firefox / Playwright | 备胎 |
 | DrissionPage | `spider_drission.py` | 5/5 | 2-128s | 系统 Chrome / CDP | 稳妥但慢 |
 
@@ -60,12 +60,17 @@ python spider_cdp.py
 ### 3. sdenv 补环境（无浏览器）
 
 ```bash
-npm install          # 安装 sdenv 依赖
+pip install curl_cffi
 python spider_sdenv.py --url <目标URL> [--dept-url <URL>]
 ```
 
 纯 Node + curl_cffi，唯一不依赖浏览器进程的方案，适合服务器部署。
 核心：jsdomFromUrl + 阻止 `location.replace` 让 VM 完成 cookie 生成 + try/catch 包裹 timer 回调。
+
+> **依赖坑（Windows）**：sdenv 含 native canvas，`npm install` 需 VS Build Tools
+> （gyp 编译，无 SDK 直接失败）。本脚本已内置 **node_modules 自动探测**：
+> 优先本目录，其次自动扫描 `../spider research/其他/` 下已装过 sdenv 的项目
+> （pro11/pro36 等）直接复用其 node_modules——**无需本目录 npm install**。
 
 ### 4. Camoufox
 

@@ -1,0 +1,13 @@
+{
+  "name": "ruishu-sdenv-cnipa",
+  "version": "1.0.0",
+  "description": "瑞数6 sdenv 链式方案最简示例 — 专利检索系统 CNIPA (200 实测通过)",
+  "main": "generate_cookie.js",
+  "scripts": {
+    "start": "python spider_sdenv.py"
+  },
+  "dependencies": {
+    "sdenv": "^1.0.0"
+  },
+  "license": "MIT"
+}

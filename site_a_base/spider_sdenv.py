@@ -5,6 +5,11 @@
 
 用法:
     python spider_sdenv.py --url <目标URL> [--dept-url <URL>]
+
+依赖安装:
+    sdenv 含 native canvas, Windows 上 npm install 需 VS Build Tools (gyp 编译)。
+    已装过 sdenv 的环境 (如 pro36 sdenv_template / pro11 sdenv) 可直接复用其
+    node_modules —— 本脚本自动探测, 无需重复编译。
 """
 import re
 import json
@@ -12,6 +17,7 @@ import time
 import sys
 import argparse
 import subprocess
+import os
 from pathlib import Path
 import curl_cffi.requests as requests
 
@@ -25,6 +31,25 @@ OUTPUT_DIR = PROJ_DIR / "output"
 SHARED_DIR.mkdir(exist_ok=True)
 OUTPUT_DIR.mkdir(exist_ok=True)
 UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+
+# === sdenv node_modules 自动探测 ===
+# sdenv 的 native canvas 在无 VS Build Tools 的 Windows 上编译不过,
+# 若本目录 node_modules 不存在, 自动扫描 ../spider research/其他/ 下
+# 已装过 sdenv 的项目直接复用 (pro11/pro36 等)。
+_NODE_MODULES_CANDIDATES = [SCRIPT_DIR / "node_modules"]
+_OTHER_DIR = SCRIPT_DIR.parent.parent.parent / "spider research" / "其他"
+if _OTHER_DIR.exists():
+    for _proj in sorted(_OTHER_DIR.iterdir()):
+        for _sub in ("sdenv", "sdenv_template"):
+            _nm = _proj / _sub / "node_modules"
+            if _nm.exists() and (_nm / "sdenv").exists():
+                _NODE_MODULES_CANDIDATES.append(_nm)
+NODE_PATH = os.environ.get('NODE_PATH', '')
+for _cand in _NODE_MODULES_CANDIDATES:
+    if _cand.exists() and (_cand / 'sdenv').exists():
+        NODE_PATH = str(_cand)
+        break
+_NODE_ENV = {**os.environ, 'NODE_PATH': NODE_PATH}
 
 
 def generate_cookies(url: str, wait_sec: int = 8) -> requests.Session:
@@ -40,7 +65,7 @@ def generate_cookies(url: str, wait_sec: int = 8) -> requests.Session:
          "--url", url,
          "--wait", str(wait_sec)],
         capture_output=True, text=True, timeout=wait_sec + 30,
-        cwd=str(SCRIPT_DIR),
+        cwd=str(SCRIPT_DIR), env=_NODE_ENV,
     )
 
     for line in result.stderr.strip().split("\n"):
