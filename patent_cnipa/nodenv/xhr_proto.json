@@ -1,0 +1,203 @@
+{
+ "descs": {
+  "constructor": {
+   "enum": false,
+   "writable": true,
+   "configurable": true,
+   "valueType": "function",
+   "fn": "class XMLHttpRequest extends globalObject.XMLHttpRequestEventTarget {\n    constructor() {\n      return exports.setup(Object.create(new.target.prototype), globalObject, undefined);\n    }\n\n    open(method, url) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\"'open' called on an object that is not a valid instance of XMLHttpRequest.\");\n      }\n\n      if (arguments.length < 2) {\n        throw new globalObject.TypeError(\n          `Failed to execute 'open' on 'XMLHttpRequest': 2 arguments required, but only ${arguments.length} present.`\n        );\n      }\n      const args = [];\n      switch (arguments.length) {\n        case 2:\n          {\n            let curArg = arguments[0];\n            curArg = conversions[\"ByteString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 1\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[1];\n            curArg = conversions[\"USVString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 2\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          break;\n        case 3:\n          {\n            let curArg = arguments[0];\n            curArg = conversions[\"ByteString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 1\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[1];\n            curArg = conversions[\"USVString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 2\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[2];\n            curArg = conversions[\"boolean\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 3\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          break;\n        case 4:\n          {\n            let curArg = arguments[0];\n            curArg = conversions[\"ByteString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 1\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[1];\n            curArg = conversions[\"USVString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 2\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[2];\n            curArg = conversions[\"boolean\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 3\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[3];\n            if (curArg !== undefined) {\n              if (curArg === null || curArg === undefined) {\n                curArg = null;\n              } else {\n                curArg = conversions[\"USVString\"](curArg, {\n                  context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 4\",\n                  globals: globalObject\n                });\n              }\n            } else {\n              curArg = null;\n            }\n            args.push(curArg);\n          }\n          break;\n        default:\n          {\n            let curArg = arguments[0];\n            curArg = conversions[\"ByteString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 1\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[1];\n            curArg = conversions[\"USVString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 2\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[2];\n            curArg = conversions[\"boolean\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 3\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[3];\n            if (curArg !== undefined) {\n              if (curArg === null || curArg === undefined) {\n                curArg = null;\n              } else {\n                curArg = conversions[\"USVString\"](curArg, {\n                  context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 4\",\n                  globals: globalObject\n                });\n              }\n            } else {\n              curArg = null;\n            }\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[4];\n            if (curArg !== undefined) {\n              if (curArg === null || curArg === undefined) {\n                curArg = null;\n              } else {\n                curArg = conversions[\"USVString\"](curArg, {\n                  context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 5\",\n                  globals: globalObject\n                });\n              }\n            } else {\n              curArg = null;\n            }\n            args.push(curArg);\n          }\n      }\n      return esValue[implSymbol].open(...args);\n    }\n\n    setRequestHeader(name, value) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'setRequestHeader' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      if (arguments.length < 2) {\n        throw new globalObject.TypeError(\n          `Failed to execute 'setRequestHeader' on 'XMLHttpRequest': 2 arguments required, but only ${arguments.length} present.`\n        );\n      }\n      const args = [];\n      {\n        let curArg = arguments[0];\n        curArg = conversions[\"ByteString\"](curArg, {\n          context: \"Failed to execute 'setRequestHeader' on 'XMLHttpRequest': parameter 1\",\n          globals: globalObject\n        });\n        args.push(curArg);\n      }\n      {\n        let curArg = arguments[1];\n        curArg = conversions[\"ByteString\"](curArg, {\n          context: \"Failed to execute 'setRequestHeader' on 'XMLHttpRequest': parameter 2\",\n          globals: globalObject\n        });\n        args.push(curArg);\n      }\n      return esValue[implSymbol].setRequestHeader(...args);\n    }\n\n    send() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\"'send' called on an object that is not a valid instance of XMLHttpRequest.\");\n      }\n      const args = [];\n      {\n        let curArg = arguments[0];\n        if (curArg !== undefined) {\n          if (curArg === null || curArg === undefined) {\n            curArg = null;\n          } else {\n            if (Document.is(curArg) || Blob.is(curArg) || FormData.is(curArg)) {\n              curArg = utils.implForWrapper(curArg);\n            } else if (utils.isArrayBuffer(curArg)) {\n              curArg = conversions[\"ArrayBuffer\"](curArg, {\n                context: \"Failed to execute 'send' on 'XMLHttpRequest': parameter 1\",\n                globals: globalObject\n              });\n            } else if (ArrayBuffer.isView(curArg)) {\n              curArg = conversions[\"ArrayBufferView\"](curArg, {\n                context: \"Failed to execute 'send' on 'XMLHttpRequest': parameter 1\",\n                globals: globalObject\n              });\n            } else {\n              curArg = conversions[\"USVString\"](curArg, {\n                context: \"Failed to execute 'send' on 'XMLHttpRequest': parameter 1\",\n                globals: globalObject\n              });\n            }\n          }\n        } else {\n          curArg = null;\n        }\n        args.push(curArg);\n      }\n      return esValue[implSymbol].send(...args);\n    }\n\n    abort() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\"'abort' called on an object that is not a valid instance of XMLHttpRequest.\");\n      }\n\n      return esValue[implSymbol].abort();\n    }\n\n    getResponseHeader(name) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'getResponseHeader' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      if (arguments.length < 1) {\n        throw new globalObject.TypeError(\n          `Failed to execute 'getResponseHeader' on 'XMLHttpRequest': 1 argument required, but only ${arguments.length} present.`\n        );\n      }\n      const args = [];\n      {\n        let curArg = arguments[0];\n        curArg = conversions[\"ByteString\"](curArg, {\n          context: \"Failed to execute 'getResponseHeader' on 'XMLHttpRequest': parameter 1\",\n          globals: globalObject\n        });\n        args.push(curArg);\n      }\n      return esValue[implSymbol].getResponseHeader(...args);\n    }\n\n    getAllResponseHeaders() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'getAllResponseHeaders' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol].getAllResponseHeaders();\n    }\n\n    overrideMimeType(mime) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'overrideMimeType' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      if (arguments.length < 1) {\n        throw new globalObject.TypeError(\n          `Failed to execute 'overrideMimeType' on 'XMLHttpRequest': 1 argument required, but only ${arguments.length} present.`\n        );\n      }\n      const args = [];\n      {\n        let curArg = arguments[0];\n        curArg = conversions[\"DOMString\"](curArg, {\n          context: \"Failed to execute 'overrideMimeType' on 'XMLHttpRequest': parameter 1\",\n          globals: globalObject\n        });\n        args.push(curArg);\n      }\n      return esValue[implSymbol].overrideMimeType(...args);\n    }\n\n    get onreadystatechange() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get onreadystatechange' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return utils.tryWrapperForImpl(esValue[implSymbol][\"onreadystatechange\"]);\n    }\n\n    set onreadystatechange(V) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'set onreadystatechange' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      if (!utils.isObject(V)) {\n        V = null;\n      } else {\n        V = EventHandlerNonNull.convert(globalObject, V, {\n          context: \"Failed to set the 'onreadystatechange' property on 'XMLHttpRequest': The provided value\"\n        });\n      }\n      esValue[implSymbol][\"onreadystatechange\"] = V;\n    }\n\n    get readyState() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get readyState' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"readyState\"];\n    }\n\n    get timeout() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get timeout' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"timeout\"];\n    }\n\n    set timeout(V) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'set timeout' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      V = conversions[\"unsigned long\"](V, {\n        context: \"Failed to set the 'timeout' property on 'XMLHttpRequest': The provided value\",\n        globals: globalObject\n      });\n\n      esValue[implSymbol][\"timeout\"] = V;\n    }\n\n    get withCredentials() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get withCredentials' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"withCredentials\"];\n    }\n\n    set withCredentials(V) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'set withCredentials' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      V = conversions[\"boolean\"](V, {\n        context: \"Failed to set the 'withCredentials' property on 'XMLHttpRequest': The provided value\",\n        globals: globalObject\n      });\n\n      esValue[implSymbol][\"withCredentials\"] = V;\n    }\n\n    get upload() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get upload' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return utils.getSameObject(this, \"upload\", () => {\n        return utils.tryWrapperForImpl(esValue[implSymbol][\"upload\"]);\n      });\n    }\n\n    get responseURL() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get responseURL' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"responseURL\"];\n    }\n\n    get status() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get status' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"status\"];\n    }\n\n    get statusText() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get statusText' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"statusText\"];\n    }\n\n    get responseType() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get responseType' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return utils.tryWrapperForImpl(esValue[implSymbol][\"responseType\"]);\n    }\n\n    set responseType(V) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'set responseType' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      V = `${V}`;\n      if (!XMLHttpRequestResponseType.enumerationValues.has(V)) {\n        return;\n      }\n\n      esValue[implSymbol][\"responseType\"] = V;\n    }\n\n    get response() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get response' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"response\"];\n    }\n\n    get responseText() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get responseText' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"responseText\"];\n    }\n\n    get responseXML() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get responseXML' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return utils.tryWrapperForImpl(esValue[implSymbol][\"responseXML\"]);\n    }\n  }"
+  },
+  "open": {
+   "enum": true,
+   "writable": true,
+   "configurable": true,
+   "valueType": "function",
+   "fn": "open(method, url) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\"'open' called on an object that is not a valid instance of XMLHttpRequest.\");\n      }\n\n      if (arguments.length < 2) {\n        throw new globalObject.TypeError(\n          `Failed to execute 'open' on 'XMLHttpRequest': 2 arguments required, but only ${arguments.length} present.`\n        );\n      }\n      const args = [];\n      switch (arguments.length) {\n        case 2:\n          {\n            let curArg = arguments[0];\n            curArg = conversions[\"ByteString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 1\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[1];\n            curArg = conversions[\"USVString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 2\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          break;\n        case 3:\n          {\n            let curArg = arguments[0];\n            curArg = conversions[\"ByteString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 1\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[1];\n            curArg = conversions[\"USVString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 2\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[2];\n            curArg = conversions[\"boolean\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 3\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          break;\n        case 4:\n          {\n            let curArg = arguments[0];\n            curArg = conversions[\"ByteString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 1\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[1];\n            curArg = conversions[\"USVString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 2\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[2];\n            curArg = conversions[\"boolean\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 3\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[3];\n            if (curArg !== undefined) {\n              if (curArg === null || curArg === undefined) {\n                curArg = null;\n              } else {\n                curArg = conversions[\"USVString\"](curArg, {\n                  context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 4\",\n                  globals: globalObject\n                });\n              }\n            } else {\n              curArg = null;\n            }\n            args.push(curArg);\n          }\n          break;\n        default:\n          {\n            let curArg = arguments[0];\n            curArg = conversions[\"ByteString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 1\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[1];\n            curArg = conversions[\"USVString\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 2\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[2];\n            curArg = conversions[\"boolean\"](curArg, {\n              context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 3\",\n              globals: globalObject\n            });\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[3];\n            if (curArg !== undefined) {\n              if (curArg === null || curArg === undefined) {\n                curArg = null;\n              } else {\n                curArg = conversions[\"USVString\"](curArg, {\n                  context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 4\",\n                  globals: globalObject\n                });\n              }\n            } else {\n              curArg = null;\n            }\n            args.push(curArg);\n          }\n          {\n            let curArg = arguments[4];\n            if (curArg !== undefined) {\n              if (curArg === null || curArg === undefined) {\n                curArg = null;\n              } else {\n                curArg = conversions[\"USVString\"](curArg, {\n                  context: \"Failed to execute 'open' on 'XMLHttpRequest': parameter 5\",\n                  globals: globalObject\n                });\n              }\n            } else {\n              curArg = null;\n            }\n            args.push(curArg);\n          }\n      }\n      return esValue[implSymbol].open(...args);\n    }"
+  },
+  "setRequestHeader": {
+   "enum": true,
+   "writable": true,
+   "configurable": true,
+   "valueType": "function",
+   "fn": "setRequestHeader(name, value) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'setRequestHeader' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      if (arguments.length < 2) {\n        throw new globalObject.TypeError(\n          `Failed to execute 'setRequestHeader' on 'XMLHttpRequest': 2 arguments required, but only ${arguments.length} present.`\n        );\n      }\n      const args = [];\n      {\n        let curArg = arguments[0];\n        curArg = conversions[\"ByteString\"](curArg, {\n          context: \"Failed to execute 'setRequestHeader' on 'XMLHttpRequest': parameter 1\",\n          globals: globalObject\n        });\n        args.push(curArg);\n      }\n      {\n        let curArg = arguments[1];\n        curArg = conversions[\"ByteString\"](curArg, {\n          context: \"Failed to execute 'setRequestHeader' on 'XMLHttpRequest': parameter 2\",\n          globals: globalObject\n        });\n        args.push(curArg);\n      }\n      return esValue[implSymbol].setRequestHeader(...args);\n    }"
+  },
+  "send": {
+   "enum": true,
+   "writable": true,
+   "configurable": true,
+   "valueType": "function",
+   "fn": "send() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\"'send' called on an object that is not a valid instance of XMLHttpRequest.\");\n      }\n      const args = [];\n      {\n        let curArg = arguments[0];\n        if (curArg !== undefined) {\n          if (curArg === null || curArg === undefined) {\n            curArg = null;\n          } else {\n            if (Document.is(curArg) || Blob.is(curArg) || FormData.is(curArg)) {\n              curArg = utils.implForWrapper(curArg);\n            } else if (utils.isArrayBuffer(curArg)) {\n              curArg = conversions[\"ArrayBuffer\"](curArg, {\n                context: \"Failed to execute 'send' on 'XMLHttpRequest': parameter 1\",\n                globals: globalObject\n              });\n            } else if (ArrayBuffer.isView(curArg)) {\n              curArg = conversions[\"ArrayBufferView\"](curArg, {\n                context: \"Failed to execute 'send' on 'XMLHttpRequest': parameter 1\",\n                globals: globalObject\n              });\n            } else {\n              curArg = conversions[\"USVString\"](curArg, {\n                context: \"Failed to execute 'send' on 'XMLHttpRequest': parameter 1\",\n                globals: globalObject\n              });\n            }\n          }\n        } else {\n          curArg = null;\n        }\n        args.push(curArg);\n      }\n      return esValue[implSymbol].send(...args);\n    }"
+  },
+  "abort": {
+   "enum": true,
+   "writable": true,
+   "configurable": true,
+   "valueType": "function",
+   "fn": "abort() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\"'abort' called on an object that is not a valid instance of XMLHttpRequest.\");\n      }\n\n      return esValue[implSymbol].abort();\n    }"
+  },
+  "getResponseHeader": {
+   "enum": true,
+   "writable": true,
+   "configurable": true,
+   "valueType": "function",
+   "fn": "getResponseHeader(name) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'getResponseHeader' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      if (arguments.length < 1) {\n        throw new globalObject.TypeError(\n          `Failed to execute 'getResponseHeader' on 'XMLHttpRequest': 1 argument required, but only ${arguments.length} present.`\n        );\n      }\n      const args = [];\n      {\n        let curArg = arguments[0];\n        curArg = conversions[\"ByteString\"](curArg, {\n          context: \"Failed to execute 'getResponseHeader' on 'XMLHttpRequest': parameter 1\",\n          globals: globalObject\n        });\n        args.push(curArg);\n      }\n      return esValue[implSymbol].getResponseHeader(...args);\n    }"
+  },
+  "getAllResponseHeaders": {
+   "enum": true,
+   "writable": true,
+   "configurable": true,
+   "valueType": "function",
+   "fn": "getAllResponseHeaders() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'getAllResponseHeaders' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol].getAllResponseHeaders();\n    }"
+  },
+  "overrideMimeType": {
+   "enum": true,
+   "writable": true,
+   "configurable": true,
+   "valueType": "function",
+   "fn": "overrideMimeType(mime) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'overrideMimeType' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      if (arguments.length < 1) {\n        throw new globalObject.TypeError(\n          `Failed to execute 'overrideMimeType' on 'XMLHttpRequest': 1 argument required, but only ${arguments.length} present.`\n        );\n      }\n      const args = [];\n      {\n        let curArg = arguments[0];\n        curArg = conversions[\"DOMString\"](curArg, {\n          context: \"Failed to execute 'overrideMimeType' on 'XMLHttpRequest': parameter 1\",\n          globals: globalObject\n        });\n        args.push(curArg);\n      }\n      return esValue[implSymbol].overrideMimeType(...args);\n    }"
+  },
+  "onreadystatechange": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get onreadystatechange() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get onreadystatechange' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return utils.tryWrapperForImpl(esValue[implSymbol][\"onreadystatechange\"]);\n    }",
+   "getterName": "onreadystatechange",
+   "setter": "set onreadystatechange(V) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'set onreadystatechange' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      if (!utils.isObject(V)) {\n        V = null;\n      } else {\n        V = EventHandlerNonNull.convert(globalObject, V, {\n          context: \"Failed to set the 'onreadystatechange' property on 'XMLHttpRequest': The provided value\"\n        });\n      }\n      esValue[implSymbol][\"onreadystatechange\"] = V;\n    }"
+  },
+  "readyState": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get readyState() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get readyState' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"readyState\"];\n    }",
+   "getterName": "readyState"
+  },
+  "timeout": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get timeout() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get timeout' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"timeout\"];\n    }",
+   "getterName": "timeout",
+   "setter": "set timeout(V) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'set timeout' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      V = conversions[\"unsigned long\"](V, {\n        context: \"Failed to set the 'timeout' property on 'XMLHttpRequest': The provided value\",\n        globals: globalObject\n      });\n\n      esValue[implSymbol][\"timeout\"] = V;\n    }"
+  },
+  "withCredentials": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get withCredentials() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get withCredentials' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"withCredentials\"];\n    }",
+   "getterName": "withCredentials",
+   "setter": "set withCredentials(V) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'set withCredentials' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      V = conversions[\"boolean\"](V, {\n        context: \"Failed to set the 'withCredentials' property on 'XMLHttpRequest': The provided value\",\n        globals: globalObject\n      });\n\n      esValue[implSymbol][\"withCredentials\"] = V;\n    }"
+  },
+  "upload": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get upload() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get upload' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return utils.getSameObject(this, \"upload\", () => {\n        return utils.tryWrapperForImpl(esValue[implSymbol][\"upload\"]);\n      });\n    }",
+   "getterName": "upload"
+  },
+  "responseURL": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get responseURL() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get responseURL' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"responseURL\"];\n    }",
+   "getterName": "responseURL"
+  },
+  "status": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get status() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get status' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"status\"];\n    }",
+   "getterName": "status"
+  },
+  "statusText": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get statusText() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get statusText' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"statusText\"];\n    }",
+   "getterName": "statusText"
+  },
+  "responseType": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get responseType() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get responseType' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return utils.tryWrapperForImpl(esValue[implSymbol][\"responseType\"]);\n    }",
+   "getterName": "responseType",
+   "setter": "set responseType(V) {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'set responseType' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      V = `${V}`;\n      if (!XMLHttpRequestResponseType.enumerationValues.has(V)) {\n        return;\n      }\n\n      esValue[implSymbol][\"responseType\"] = V;\n    }"
+  },
+  "response": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get response() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get response' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"response\"];\n    }",
+   "getterName": "response"
+  },
+  "responseText": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get responseText() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get responseText' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return esValue[implSymbol][\"responseText\"];\n    }",
+   "getterName": "responseText"
+  },
+  "responseXML": {
+   "enum": true,
+   "configurable": true,
+   "getter": "get responseXML() {\n      const esValue = this !== null && this !== undefined ? this : globalObject;\n\n      if (!exports.is(esValue)) {\n        throw new globalObject.TypeError(\n          \"'get responseXML' called on an object that is not a valid instance of XMLHttpRequest.\"\n        );\n      }\n\n      return utils.tryWrapperForImpl(esValue[implSymbol][\"responseXML\"]);\n    }",
+   "getterName": "responseXML"
+  },
+  "UNSENT": {
+   "enum": true,
+   "writable": false,
+   "configurable": false,
+   "valueType": "number"
+  },
+  "OPENED": {
+   "enum": true,
+   "writable": false,
+   "configurable": false,
+   "valueType": "number"
+  },
+  "HEADERS_RECEIVED": {
+   "enum": true,
+   "writable": false,
+   "configurable": false,
+   "valueType": "number"
+  },
+  "LOADING": {
+   "enum": true,
+   "writable": false,
+   "configurable": false,
+   "valueType": "number"
+  },
+  "DONE": {
+   "enum": true,
+   "writable": false,
+   "configurable": false,
+   "valueType": "number"
+  }
+ },
+ "order": [
+  "constructor",
+  "open",
+  "setRequestHeader",
+  "send",
+  "abort",
+  "getResponseHeader",
+  "getAllResponseHeaders",
+  "overrideMimeType",
+  "onreadystatechange",
+  "readyState",
+  "timeout",
+  "withCredentials",
+  "upload",
+  "responseURL",
+  "status",
+  "statusText",
+  "responseType",
+  "response",
+  "responseText",
+  "responseXML",
+  "UNSENT",
+  "OPENED",
+  "HEADERS_RECEIVED",
+  "LOADING",
+  "DONE"
+ ],
+ "static": {
+  "UNSENT": 0,
+  "OPENED": 1,
+  "HEADERS_RECEIVED": 2,
+  "LOADING": 3,
+  "DONE": 4
+ },
+ "uploadType": "object",
+ "uploadProtoKeys": "constructor",
+ "uploadStr": "[object XMLHttpRequestUpload]"
+}

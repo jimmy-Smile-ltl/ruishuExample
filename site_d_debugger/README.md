@@ -35,8 +35,9 @@
 | 3. rs-reverse 纯算法（★ 零浏览器零环境模拟） | `spider_rs_pure.py` + `patch_rs_reverse_site_d.py` | curl_cffi + Node + rs-reverse | ~1-4s/轮 | ✅ 200（2026-08-15 攻克） |
 | 4. 手写补环境 v3（Node 零依赖） | `spider_env_v3.py` + `build_env.js` + `native_patch.js` | 仅 curl_cffi | ~2-8s/轮 | ✅ v2 稳定化后 10/10 轮通过（同轮多跑 + 双复验） |
 | 5. 手写 harness + browser() 直调 | `spider_handpatch.py` + `build_env_browser.js` | curl_cffi + Node + sdenv(仅补丁函数) | ~5-8s/页 | ✅ 三页全 200（2026-08-15 攻克） |
+| 6. RPC 直达 pajax 数据层（★ 数据采集首选） | `spider_rpc.py` | websocket-client + Chrome | ~0.2s/页 | ✅ 阿莫西林 572 条/58 页全通 |
 
-方案 1-5 均独立可运行（方案 4 用 v2 稳定化：同轮多跑 + 双复验）。
+方案 1-6 均独立可运行（方案 4 用 v2 稳定化：同轮多跑 + 双复验）。
 
 ### 方案 1：sdenv 链式补环境（纯算 + jsdom，无浏览器依赖）
 
@@ -147,6 +148,35 @@ python spider_handpatch.py                  # 首页 + /datasearch/ + 搜索结�
 python spider_handpatch.py --url <URL>      # 单 URL
 ```
 
+### 方案 6：RPC 直达 pajax 数据层（数据采集首选，0.2s/页）
+
+```
+真实 Chrome (持久 profile + 零注入 + renderer 跳转)
+  └─ 页面内 Runtime.evaluate 直接调 pajax.hasTokenGet(api.queryList, params)
+       └─ 签名 7QBHXKaZ 由页面 token 层自动生成, token 绑定浏览器会话 → 免逆向
+       └─ awaitPromise 直接返回 JSON (0.2s/页), 翻页直接改 pageNum
+```
+
+要点：
+
+1. **签名免逆向**：搜索 API 的 `7QBHXKaZ` 参数由页面 token 层（`pajax.hasTokenGet`）
+   自动生成，token 与浏览器会话绑定（重放 400）——在页面内调用即天然合法，
+   纯算法逆向该签名不划算
+2. **WAF 限流对策**：每会话 ~25 次 API 后开始失败（no-data/空页），
+   内置 pace≥1.2s + 失败重载恢复 + `--fresh`（全新 profile）+
+   `--proxy`（Clash 7897 换出口 IP）；生产每 ~20 页换 profile/节点，15-30min 冷却
+3. **参数**：`{itemId, isSenior:'N', searchValue, pageNum, pageSize}`；
+   返回 `{total, pageSize, list:[f0 批准文号, f1 产品名称, f2 生产单位, f3 本位码, f4 记录ID]}`
+4. **静态分析附注**：search-result.js 明文可读（queryList 参数直接可见）；
+   api.js 为 XOR(9) 混淆（端点已解）；ajax.js 为 jsjiami v6 混淆（无需解，token 层已封装）
+
+```bash
+pip install websocket-client
+python spider_rpc.py 阿莫西林                    # 单关键词全量翻页
+python spider_rpc.py --file keywords.txt         # 批量关键词
+python spider_rpc.py 阿莫西林 --max-pages 3 --fresh --proxy http://127.0.0.1:7897
+```
+
 ---
 
 ## 验证结果（2026-08-13 ~ 08-15 连续实测）
@@ -157,9 +187,10 @@ python spider_handpatch.py --url <URL>      # 单 URL
 方案 3: 数据查询 PASS (25128b, 257-char P-cookie)  复验 200×2 + 错误名对照 412
 方案 4: 数据查询 10/10 轮稳定通过 (v2 同轮多跑, 平均 2.3 跑/轮, 200 双复验)
 方案 5: 首页 PASS (7.9s, 52573b)  数据查询 PASS (4.7s, 25195b)  搜索结果 PASS (0.1s, 会话复用)
+方案 6: 数据查询 RPC 直达 PASS (0.2s/页, 阿莫西林 572 条/58 页全通)
 ```
 
-判定标准：搜索页（/datasearch/）通过才算通过 —— 五方案均满足。
+判定标准：搜索页（/datasearch/）通过才算通过 —— 六方案均满足。
 
 ## 文件
 
@@ -176,6 +207,8 @@ python spider_handpatch.py --url <URL>      # 单 URL
 | `build_env.js` + `native_patch.js` | 方案 4 的 Node 侧：手写 mock + 原生伪装层（setFuncNative） |
 | `spider_handpatch.py` | 方案 5 主入口：curl_cffi 链式 + 调用 build_env_browser.js |
 | `build_env_browser.js` | 方案 5 执行器：JSDOM + browser(w,'chrome') 直调（脱离 jsdomFromText 流程） |
+| `spider_rpc.py` | 方案 6：RPC 直达 pajax 数据爬虫（自包含 CDP 客户端，零注入 + awaitPromise） |
+| `rpc_profile/` | 方案 6 运行时的 Chrome 持久 profile（自动生成） |
 | `纯算法攻克思路.md` | 方案 3 完整技术思路：诊断链、同轮对比法、len160 推导、方法论总结 |
 | `cdp_profile/` | 方案 2 运行时的 Chrome 持久 profile（自动生成） |
 
@@ -184,3 +217,16 @@ python spider_handpatch.py --url <URL>      # 单 URL
 - 首页与数据查询模块 cookie 族不同（`<随机名>S/T` vs `<随机名>O/P`），会话内跨页请求正常（复用同一 session）
 - 手写补环境（纯 Node 零依赖）在站点D 需 v2 稳定化（同轮多跑换校准值 + 双复验防假通过）——服务器校验窗口窄，单跑是 ~50% 彩票（假通过风险）；窗口宽的站（如 pro8）单跑即稳
 - sdenv npm 安装需编译原生模块（Windows 需 VS2022「使用 C++ 的桌面开发」+ Python）
+
+## 附录：旧版搜索接口 sign 算法（2025-11 历史参考）
+
+CSDN 文章（2025-11，旧 VM 时代）记录的搜索接口签名：
+
+```
+sign = MD5(urlencode(params + "&nmpasecret2020", safe=''))
+```
+
+- 请求头 timestamp 必须与 sign 内时间戳一致
+- params 必须明文；追加 `7QBHXKaZ` 类后缀会 500（实测）
+- **现状**：当前接口签名已由页面 token 层接管（`pajax.hasTokenGet` 自动生成，
+  会话绑定不可重放）——本算法仅作历史参考，数据采集请用方案 6 RPC 直达

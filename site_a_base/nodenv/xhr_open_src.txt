@@ -1,0 +1,159 @@
+open(method, url) {
+      const esValue = this !== null && this !== undefined ? this : globalObject;
+      if (!exports.is(esValue)) {
+        throw new globalObject.TypeError("'open' called on an object that is not a valid instance of XMLHttpRequest.");
+      }
+
+      if (arguments.length < 2) {
+        throw new globalObject.TypeError(
+          `Failed to execute 'open' on 'XMLHttpRequest': 2 arguments required, but only ${arguments.length} present.`
+        );
+      }
+      const args = [];
+      switch (arguments.length) {
+        case 2:
+          {
+            let curArg = arguments[0];
+            curArg = conversions["ByteString"](curArg, {
+              context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 1",
+              globals: globalObject
+            });
+            args.push(curArg);
+          }
+          {
+            let curArg = arguments[1];
+            curArg = conversions["USVString"](curArg, {
+              context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 2",
+              globals: globalObject
+            });
+            args.push(curArg);
+          }
+          break;
+        case 3:
+          {
+            let curArg = arguments[0];
+            curArg = conversions["ByteString"](curArg, {
+              context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 1",
+              globals: globalObject
+            });
+            args.push(curArg);
+          }
+          {
+            let curArg = arguments[1];
+            curArg = conversions["USVString"](curArg, {
+              context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 2",
+              globals: globalObject
+            });
+            args.push(curArg);
+          }
+          {
+            let curArg = arguments[2];
+            curArg = conversions["boolean"](curArg, {
+              context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 3",
+              globals: globalObject
+            });
+            args.push(curArg);
+          }
+          break;
+        case 4:
+          {
+            let curArg = arguments[0];
+            curArg = conversions["ByteString"](curArg, {
+              context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 1",
+              globals: globalObject
+            });
+            args.push(curArg);
+          }
+          {
+            let curArg = arguments[1];
+            curArg = conversions["USVString"](curArg, {
+              context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 2",
+              globals: globalObject
+            });
+            args.push(curArg);
+          }
+          {
+            let curArg = arguments[2];
+            curArg = conversions["boolean"](curArg, {
+              context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 3",
+              globals: globalObject
+            });
+            args.push(curArg);
+          }
+          {
+            let curArg = arguments[3];
+            if (curArg !== undefined) {
+              if (curArg === null || curArg === undefined) {
+                curArg = null;
+              } else {
+                curArg = conversions["USVString"](curArg, {
+                  context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 4",
+                  globals: globalObject
+                });
+              }
+            } else {
+              curArg = null;
+            }
+            args.push(curArg);
+          }
+          break;
+        default:
+          {
+            let curArg = arguments[0];
+            curArg = conversions["ByteString"](curArg, {
+              context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 1",
+              globals: globalObject
+            });
+            args.push(curArg);
+          }
+          {
+            let curArg = arguments[1];
+            curArg = conversions["USVString"](curArg, {
+              context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 2",
+              globals: globalObject
+            });
+            args.push(curArg);
+          }
+          {
+            let curArg = arguments[2];
+            curArg = conversions["boolean"](curArg, {
+              context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 3",
+              globals: globalObject
+            });
+            args.push(curArg);
+          }
+          {
+            let curArg = arguments[3];
+            if (curArg !== undefined) {
+              if (curArg === null || curArg === undefined) {
+                curArg = null;
+              } else {
+                curArg = conversions["USVString"](curArg, {
+                  context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 4",
+                  globals: globalObject
+                });
+              }
+            } else {
+              curArg = null;
+            }
+            args.push(curArg);
+          }
+          {
+            let curArg = arguments[4];
+            if (curArg !== undefined) {
+              if (curArg === null || curArg === undefined) {
+                curArg = null;
+              } else {
+                curArg = conversions["USVString"](curArg, {
+                  context: "Failed to execute 'open' on 'XMLHttpRequest': parameter 5",
+                  globals: globalObject
+                });
+              }
+            } else {
+              curArg = null;
+            }
+            args.push(curArg);
+          }
+      }
+      return esValue[implSymbol].open(...args);
+    }

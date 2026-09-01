@@ -19,3 +19,12 @@ o_cookie.txt
 ts.json
 vm.js
 cdp_profile/
+rpc_profile/
+
+# nodenv 运行时诊断产物 (run_vm.js/env.js 插桩自动生成, 含 cookie 值/堆栈)
+*/nodenv/vm_mount_keys.txt
+*/nodenv/randlog_node.json
+*/nodenv/seq_mine.txt
+*/nodenv/doc_ac_log.txt
+*/nodenv/win_forin_keys.json
+*/nodenv/cookie_writes.log

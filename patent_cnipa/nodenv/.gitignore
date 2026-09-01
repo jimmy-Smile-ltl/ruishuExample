@@ -1,0 +1,19 @@
+# 运行时产物（每次挑战动态生成）
+cookie_out.txt
+cookie_writes.log
+setter_hits.log
+all_eval.txt
+ric_vmric_*.js
+main_chunk_instrumented_*.js
+oplog*.json
+segdump.json
+g71dump.json
+o27log.json
+exnlog*.json
+task_trace.json
+ts_*.json
+randlog_*.json
+eval_capture_mine.txt
+short_eval_stacks.txt
+err_code.js
+broken_chunk.js

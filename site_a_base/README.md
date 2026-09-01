@@ -3,18 +3,20 @@
 来源：高校组瑞数实战（原 pro36），2026-08-13 整理，**2026-08-19 复测确认**。
 5 所使用瑞数 WAF 的高校官网，5 条可行方案（全部实测 5/5），最小可验证代码。
 
-> 匿名化说明：站名使用代号（高校1-5），官网 URL 为 base64 编码。
+> 匿名化说明：官网 URL 为 base64 编码（站名保留中文，均为公开高校官网）。
 > 解码：`echo <b64> | base64 -d`（bash）/ `[Convert]::FromBase64String("<b64>")`（PowerShell）。
 
-## 目标站点
+## 目标站点（五校逐一）
 
-| 高校 | 官网 (base64) | 风控特征 |
-|------|--------------|---------|
-| 高校1 (985) | `aHR0cHM6Ly93d3cubHp1LmVkdS5jbg==` | 极严格 TLS |
-| 高校2 (985) | `aHR0cHM6Ly93d3cuc2N1LmVkdS5jbg==` | 极严格 TLS |
-| 高校3 (211) | `aHR0cHM6Ly93d3cuYnVwdC5lZHUuY24=` | 宽松 |
-| 高校4 (211) | `aHR0cHM6Ly93d3cubmpudS5lZHUuY24=` | 极严格 TLS + **IP 风控** |
-| 高校5 (211) | `aHR0cHM6Ly93d3cubmp1c3QuZWR1LmNu` | 宽松 + IP 风控 |
+| 高校 | 官网 (base64) | 风控特征 | 手写补环境方案（2026-09-02 实测） |
+|------|--------------|---------|-----------------------------------|
+| 兰州大学（985） | `aHR0cHM6Ly93d3cubHp1LmVkdS5jbg==` | 极严格 TLS | ✅ nodenv 5/5（14.0-14.4s，P=335c） |
+| 四川大学（985） | `aHR0cHM6Ly93d3cuc2N1LmVkdS5jbg==` | 极严格 TLS | ✅ env_scu 锁定模板 3/3（P=279c，见 pro36/handpatch_v3） |
+| 北京邮电大学（211） | `aHR0cHM6Ly93d3cuYnVwdC5lZHUuY24=` | 宽松 | ✅ nodenv 5/5（13.4-13.6s，T=250c） |
+| 南京师范大学（211） | `aHR0cHM6Ly93d3cubmpudS5lZHUuY24=` | 极严格 TLS + **IP 风控** | ✅ nodenv 5/5（13.7-14.3s，T=250c） |
+| 南京理工大学（211） | `aHR0cHM6Ly93d3cubmp1c3QuZWR1LmNu` | 宽松 + IP 风控 | ✅ env_njust 锁定模板 3/3（P=173c，**meta-embedded 特殊形态**，见 pro36/handpatch_v3） |
+
+> 解码：`echo <b64> | base64 -d`（bash）/ `[Convert]::FromBase64String("<b64>")`（PowerShell）。
 
 ## 方案矩阵（实测）
 
@@ -23,6 +25,7 @@
 | **ruyiPage** | `spider_ruyipage.py` | **5/5** | **2-3s** | Firefox / WebDriver BiDi | 🏆 首选（每tab独立代理） |
 | **CDP 零注入** | `spider_cdp.py` | **5/5** | 5-6s | 真实 Chrome / CDP | Chrome 系首选（无第三方内核） |
 | sdenv 补环境 | `spider_sdenv.py` + `generate_cookie.js` | 5/5 | 13-15s | 纯 Node + curl_cffi | 无浏览器部署 |
+| **nodenv 零依赖手写补环境** | `spider_nodenv.py` + `nodenv/` | **3/5 校**（兰州/北邮/南师各 5/5） | 13-14s | 纯 Node 内置（无 npm） | 无浏览器部署·零依赖（2026-09-02 15/15）；川大/南理工用独立锁定模板 |
 | Camoufox | `spider_camoufox.py` | 5/5* | 2-10s | Firefox / Playwright | 备胎 |
 | DrissionPage | `spider_drission.py` | 5/5 | 2-128s | 系统 Chrome / CDP | 稳妥但慢 |
 
@@ -72,6 +75,25 @@ python spider_sdenv.py --url <目标URL> [--dept-url <URL>]
 > 优先本目录，其次自动扫描 `../spider research/其他/` 下已装过 sdenv 的项目
 > （pro11/pro36 等）直接复用其 node_modules——**无需本目录 npm install**。
 
+### 3b. nodenv 零依赖手写补环境（无浏览器·零 npm 依赖，2026-09-02 新增）
+
+```bash
+pip install curl_cffi
+python spider_nodenv.py --site bupt    # 覆盖 lzu/bupt/njnu（--site 三选一）
+```
+
+- 移植自 patent_cnipa 检索站 nodenv 9/9 打通方案：`vm.createContext(DONT_CONTEXTIFY)`
+  + window Proxy + 键集对齐（align_*.js）+ fakePTS 三分支 toString + cookie 时间源
+  fixDateMs 对齐——**零 npm 依赖**（不需要 sdenv/VS Build Tools），node ≥ 18 即可
+- 覆盖 lzu/bupt/njnu 三校，15/15（bupt/njnu T=250c、lzu P=335c，13-14s/轮）
+- **scu/njust 用独立锁定模板**（pro36/handpatch_v3 的 runner 框架
+  env_scu/env_njust，3/3 稳定）。njust 是 meta-embedded 特殊形态（nsd/cd 编码在 meta
+  content + 22.5KB 分片 VM + `_$0P('rEA5')` 初始化），nodenv 的 classic 解析暂不支持——
+  统一到 nodenv 需补 meta-embedded 解析（增强项，非必需）
+- 核心教训（patent_cnipa 三阶段史）：400 = 8 处环境差异（键集/navigator/matchMedia）；
+  0c = env cookie setter 用宿主 Date.now 误判 VM fixdate 的 expires 为过期（写完即删）；
+  200 = fixDateMs 对齐。"最后卡点往往不是 VM 环境本身，而是宿主侧逻辑"
+
 ### 4. Camoufox
 
 ```bash
@@ -98,9 +120,9 @@ python spider_drission.py
    `navigator.webdriver` 从原生值改成 getter，属性描述符变化被 VM 检测 →
    静默放弃出 cookie → 挑战后重载被 400 空响应。
 2. **出口节点 IP 是最大环境变量**：同一引擎三个节点三个结果。IP 风控站
-   （高校4/高校5）会标记特定出口 IP；失败先重试、再换 Clash 节点。
+   （南师/南理工）会标记特定出口 IP；失败先重试、再换 Clash 节点。
    三组实测：Camoufox 在节点 A 上 3/5，节点 B/C 上 5/5。
-3. **TLS 指纹层拦截**（高校1/高校2 对非 Chrome 指纹返回 400 空响应）：
+3. **TLS 指纹层拦截**（兰大/川大对非 Chrome 指纹返回 400 空响应）：
    curl_cffi impersonate 与真实 Chrome/CDP 可过；CloakBrowser 这类 stealth
    Chromium 恒 2/5，换节点无效。
 4. **Windows 提权会话坑**：Chrome 137+ 检测到提权会自我降权重启
