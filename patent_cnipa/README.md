@@ -39,13 +39,13 @@ CNIPA 专利局两个站点共享同族瑞数 WAF（`$_ts.nsd/cd` + O/P 双 cook
 | B | **nodenv 零依赖手写补环境** | 纯 Node 内置 + curl_cffi | 13.2-13.8s | ✅ 200（9/9） | 未测 | 2026-09-01 打通，无需 sdenv |
 | C | **CDP RPC**（浏览器原生过挑战） | Chrome + websocket-client | ~3s/页 | ✅ 可过挑战 | ✅ **生产爬虫** | 翻页需页面内 token |
 | D | handpatch 手写补环境 | 纯 Node | — | ❌ 400 | — | 2026-08-15 早期尝试，233c 恒 400 |
-| E | rs-reverse 纯算法 | npm rs-reverse | — | ❌ 未打通 | ❌ | codemap op 语义错位（pro38 归档） |
+| E | rs-reverse 纯算法 | rs-reverse | ~1s | ❌ 未打通 | ✅ **200**（2026-09-03，P 257c） | 检索站 codemap op 语义错位（pro38 归档）；**公布公告站 len133 适配器命中**，见 epub/spider_rs_pure.py |
 
 **选型结论**：
 - 要**零 npm 依赖**且能接受 ~13s → **B nodenv**（`python spider_nodenv.py`）
 - 要**最快纯 HTTP** → A sdenv（`python spider_sdenv.py`，jsdom 执行更快）
-- 要**生产爬数据**（公布公告站）→ C CDP RPC（页面内 token 免逆向，断点续爬）
-- D/E 是逆向研究的教训沉淀，不可投产
+- 要**生产爬数据**（公布公告站）→ C CDP RPC（页面内 token 免逆向，断点续爬）或 **E rs-reverse 纯算法（epub 200，~1s/次，零浏览器）**
+- D 是逆向研究的教训沉淀，不可投产；E 对公布公告站可用（epub），检索站仍 ❌
 
 ## 快速启动
 

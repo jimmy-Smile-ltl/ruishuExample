@@ -28,3 +28,14 @@ rpc_profile/
 */nodenv/doc_ac_log.txt
 */nodenv/win_forin_keys.json
 */nodenv/cookie_writes.log
+*/nodenv/cookie_stack.log
+*/nodenv/arrlog_inject.txt
+*/nodenv/scjlog_late_inject.txt
+*/nodenv/ts_aebi_scj.txt
+*/nodenv/exn_oplog_tail.json
+*/nodenv/arr_ring.json
+*/nodenv/all_chunks.js
+*/nodenv/all_rawchunks.js
+*/nodenv/push_instrumented.js
+*/nodenv/eval_thisa1_*.js
+*/nodenv/run_vm.js.bak*

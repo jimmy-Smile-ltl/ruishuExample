@@ -13,6 +13,7 @@
 - [站点案例](#站点案例)
 - [路线 × 站点速查矩阵](#路线--站点速查矩阵)
 - [快速启动](#快速启动)
+- [瑞数版本分类速查](#瑞数版本分类速查)
 - [三档方案决策表](#三档方案决策表)
 - [选型决策流程](#选型决策流程)
 - [关键认知](#关键认知)
@@ -29,7 +30,7 @@
 | [site_a_base](site_a_base/)（站点A） | 5 所大学高校（逐一展示见下） | ✅ 2026-09-02 五校复测 | sdenv / **nodenv 零依赖手写补环境** / env_scu·env_njust 锁定模板 / CDP / ruyiPage / Camoufox / DrissionPage |
 | [site_d_debugger](site_d_debugger/)（站点D） | 药监局 | ✅ | sdenv 链式 / CDP / rs-reverse 纯算法 / 手写补环境 v3 / 手写 harness / **RPC pajax 数据层**（0.2s/页） |
 | [tax_ruishu](tax_ruishu/)（站点F） | 税务局（TLS 指纹双变体版） | ✅ | **rs-reverse 纯算法 len173 自制适配器**（7/7 轮 200，~1s）/ 手写补环境 v3（5/5）/ **sdenv jsdom**（2/2，~17s） |
-| [patent_cnipa](patent_cnipa/)（站点G） | 专利局双站（检索 + 公布公告，同族 WAF） | ✅ 2026-09-01 三路线 200 | **sdenv 链式**（10-20s）/ **nodenv 零依赖手写补环境**（13.2-13.8s，9/9）/ **CDP RPC** 生产爬虫；另 2 条不可行路线归档（handpatch / rs-reverse）——完整路线全景见子目录 [README](patent_cnipa/README.md) |
+| [patent_cnipa](patent_cnipa/)（站点G） | 专利局双站（检索 + 公布公告，同族 WAF） | ✅ 2026-09-01 三路线 200 | **sdenv 链式**（10-20s）/ **nodenv 零依赖手写补环境**（13.2-13.8s，9/9）/ **CDP RPC** 生产爬虫；**公布公告站 rs-reverse 纯算法 200（2026-09-03，~1s）**；另 2 条不可行路线归档（handpatch / 检索站 rs-reverse）——完整路线全景见子目录 [README](patent_cnipa/README.md) |
 
 > 目录使用代号（site_A~G）；真实站点映射与明文 URL 见 `sites_mapping.local.md`（本地维护，不入库）。仓库内 URL 一律 base64 编码存储，运行时解码。
 
@@ -54,7 +55,7 @@
 
 | 路线 \ 站点 | A 高校组 | B 招聘 | C 医院 | D 药监 | E 研究院 | F 税务 | G 专利局 |
 |---|---|---|---|---|---|---|---|
-| **rs-reverse 纯算法** | ❌ | ✅ ⚡ 1.1s | — | ✅ ⚡ 1-4s | ❌ | ✅ ⚡ ~1s | ❌ |
+| **rs-reverse 纯算法** | ❌ | ✅ ⚡ 1.1s | — | ✅ ⚡ 1-4s | ❌ | ✅ ⚡ ~1s | ⚠️ 检索站❌·epub✅ |
 | **sdenv / jsdom 补环境** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
 | **jsdom 同步 flush**（提速变体） | — | — | — | — | ✅ ⚡ 421c | — | — |
 | **手写补环境**（零依赖） | ✅ 3/5 校 | — | ✅ 20/20 | ✅ 10/10 | ❌ | ✅ 5/5 | ✅ 9/9 |
@@ -109,6 +110,27 @@ python spider_rpc.py 阿莫西林 --max-pages 3
 python spider_sdenv_chain.py
 ```
 
+## 瑞数版本分类速查
+
+遇到 202/412 挑战页，先看 **P 结尾的 cookie**（`PPT` 三段式中的 PT 段，JS 生成；O 段是服务器下发、不参与版本判断）的**开头字符**定位代际，再回上面的矩阵选路线：
+
+| 版本 | PPT cookie 开头 | `$_ts` 特征 | 本仓库站点 |
+|------|----------------|-------------|-----------|
+| 瑞数 VMP | 字母 / 0 | `$_ts.nsd` + `$_ts.cd` + `$_ts.lcd` | — |
+| **瑞数 6 代** | 6 | `$_ts.scj = []` | **全部 7 站（含各子形态）** |
+| 瑞数 5 代 | 5 | `$_ts.scj = []` | — |
+| 瑞数 4 代 | 4 | — | — |
+| 瑞数 3 代 | 3 | — | — |
+
+一图版：
+
+![瑞数 cookie 版本速查](assets/ruishu_cookie_versions.png)
+
+> 图片来源：CSDN《如何通过cookie来区分这是瑞数反爬的几代》（作者 weixin_43411585，个人观点），
+> 图片与特征表仅供学习参考。本仓库 7 个站点实测**全部为瑞数 6 代系**，
+> 但子形态差异巨大（加强环境检测 / debugger 变体 hasDebug / TLS 指纹双变体 / 202 挑战 / meta-embedded），
+> 「都是 6 代」≠「同一套方案通吃」——选型仍以上面的路线 × 站点矩阵为准。
+
 ## 三档方案决策表（核心知识）
 
 | 档位 | 方案 | 依赖 | 速度 | 适用站点特征 | 已验证站点 |
@@ -117,7 +139,7 @@ python spider_sdenv_chain.py
 | **2. jsdom 补环境** | sdenv / jsdom_gen（同步 flush）/ round_gen（真实 timer）/ redirect-blocked | npm sdenv（Windows SDK 编译 canvas） | 2-14s（税务局 ~17s） | 瑞数6加强版（环境深层检测）——**环境是关键，timer 时序无关**（jsdom+同步flush 421 chars 实证） | 站点E / 高校1-5 / 深大总医院 / 药监局 / **税务局（2/2，escape 保留修复）** / **专利局检索站（9.9-20s）** |
 | **2b. 零依赖手写补环境** | nodenv（vm.createContext + DONT_CONTEXTIFY + 键集对齐 + fakePTS） | **零依赖**（纯 Node 内置） | 13.2-13.8s | 同档2加强版——手写环境**可打通但工程量大**（8 处环境差异 + 宿主侧时间源 bug） | **专利局检索站（9/9，2026-09-01 打通）** / **大学站 3 校（15/15，2026-09-02 移植）** |
 | **3. 浏览器** | CDP 零注入 / ruyiPage / CloakBrowser / RPC / DrissionPage / Camoufox | Chrome/Firefox | 1-18s | Cookie-TLS 强绑定 / IP 风控 / 极新 VM 形态 | 大学站 5/5（ruyiPage 2-3s/站最快）、深大总医院（CDP 3s） |
-| **★ 纯算法** | rs-reverse（pysunday） | Node | ~1s | **basearr 适配器匹配的站点**（作者适配 + 自制适配器） | **国家电网招聘网（200 验证）、税务局（len173 自制适配器，7/7 轮 200）、药监局（len160 适配器 + 提升器 v7，10/10）** |
+| **★ 纯算法** | rs-reverse（pysunday） | Node | ~1s | **basearr 适配器匹配的站点**（作者适配 + 自制适配器） | **国家电网招聘网（200 验证）、税务局（len173 自制适配器，7/7 轮 200）、药监局（len160 适配器 + 提升器 v7，10/10）、专利局公布公告站（len133，2026-09-03 200）** |
 
 ## 选型决策流程
 
