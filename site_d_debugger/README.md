@@ -32,7 +32,7 @@
 |------|------|------|---------|------|
 | 1. sdenv 链式补环境（无浏览器） | `spider_sdenv_chain.py` + `stage_vm.js` | curl_cffi + Node + sdenv | ~4s/页 | ✅ 首页 + 数据查询 + 搜索结果全 200 |
 | 2. 原生 CDP 零注入（最快，需 Chrome） | `spider_cdp.py` | websocket-client + Chrome | ~2-5s/页 | ✅ 全页面 200 |
-| 3. rs-reverse 纯算法（★ 零浏览器零环境模拟） | `spider_rs_pure.py` + `patch_rs_reverse_site_d.py` | curl_cffi + Node + rs-reverse | ~1-4s/轮 | ✅ 200（2026-08-15 攻克） |
+| 3. rs-reverse 纯算法（★ 零浏览器零环境模拟） | 🔒 代码不开源（文档见下 + `纯算法攻克思路.md`） | curl_cffi + Node + rs-reverse | ~1-4s/轮 | ✅ 200（2026-08-15 攻克） |
 | 4. 手写补环境 v3（Node 零依赖） | `spider_env_v3.py` + `build_env.js` + `native_patch.js` | 仅 curl_cffi | ~2-8s/轮 | ✅ v2 稳定化后 10/10 轮通过（同轮多跑 + 双复验） |
 | 5. 手写 harness + browser() 直调 | `spider_handpatch.py` + `build_env_browser.js` | curl_cffi + Node + sdenv(仅补丁函数) | ~5-8s/页 | ✅ 三页全 200（2026-08-15 攻克） |
 | 6. RPC 直达 pajax 数据层（★ 数据采集首选） | `spider_rpc.py` | websocket-client + Chrome | ~0.2s/页 | ✅ 阿莫西林 572 条/58 页全通 |
@@ -92,6 +92,10 @@ python spider_cdp.py --url <URL>
 
 ### 方案 3：rs-reverse 纯算法（零浏览器、零环境模拟，2026-08-15 攻克）
 
+> 🔒 **开源策略**：纯算法可运行代码（`spider_rs_pure.py` / `patch_rs_reverse_site_d.py` /
+> `_runTask_hoist_v7.tpl.js`）**不开源**（防被直接用于大规模未授权采集），
+> 技术思路全部公开于本文与 [纯算法攻克思路.md](纯算法攻克思路.md)。
+
 ```
 curl_cffi (chrome110) 拿 412
   ├─ ts.json (★ hasDebug:true, 站点D 是 debugger 变体 hd 位 0x80) + vm.js + O-cookie
@@ -108,11 +112,10 @@ curl_cffi (chrome110) 拿 412
 3. **hasDebug 必须**：ts.json 缺 hasDebug 字段时任务执行必崩
 
 ```bash
-pip install curl_cffi
-npm install rs-reverse
-python patch_rs_reverse_site_d.py   # len160 适配器 + 6 项补丁 (含 v7 提升器)
-python spider_rs_pure.py            # 数据查询页 (默认)
-python spider_rs_pure.py --url <目标URL>
+# 纯算法代码未开源（见上方开源策略）；以下仅为记录已验证的调用链
+pip install curl_cffi && npm install rs-reverse
+# python patch_rs_reverse_site_d.py   # len160 适配器 + 6 项补丁 (含 v7 提升器)
+# python spider_rs_pure.py            # 数据查询页 (默认)
 ```
 
 补丁清单（patch_rs_reverse_site_d.py，2026-08-15 v7）：
@@ -200,9 +203,9 @@ python spider_rpc.py 阿莫西林 --max-pages 3 --fresh --proxy http://127.0.0.1
 | `stage_vm.js` | 单轮挑战执行器：jsdomFromText 本地跑 VM 输出 P-cookie |
 | `package.json` | Node 依赖声明（sdenv ^1.1.3） |
 | `spider_cdp.py` | 方案 2：原生 CDP 零注入最小独立实现 |
-| `spider_rs_pure.py` | ★ 方案 3：rs-reverse 纯算法爬虫（变体重试 + T/P 名轮换 + 412 重试） |
-| `patch_rs_reverse_site_d.py` | 方案 3 前置：len160 适配器 + 6 项补丁（v7 提升器，幂等可重跑） |
-| `_runTask_hoist_v7.tpl.js` | 补丁 6 的提升器模板（词法扫描 + var 提升，补丁脚本注入用） |
+| `spider_rs_pure.py` | 🔒 方案 3：rs-reverse 纯算法爬虫（**不开源**，仅本地保留） |
+| `patch_rs_reverse_site_d.py` | 🔒 方案 3 前置：len160 适配器 + 6 项补丁（**不开源**） |
+| `_runTask_hoist_v7.tpl.js` | 🔒 补丁 6 的提升器模板（**不开源**） |
 | `spider_env_v3.py` | 方案 4：手写补环境 v3 爬虫（v2 稳定化：同轮多跑 + 双复验） |
 | `build_env.js` + `native_patch.js` | 方案 4 的 Node 侧：手写 mock + 原生伪装层（setFuncNative） |
 | `spider_handpatch.py` | 方案 5 主入口：curl_cffi 链式 + 调用 build_env_browser.js |

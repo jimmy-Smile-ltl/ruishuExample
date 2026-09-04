@@ -1,0 +1,13 @@
+node_modules/
+output/
+__pycache__/
+*.pyc
+# nodenv 运行时诊断残留
+*.log
+*.txt
+*.json
+!jsdom_texts.json
+!xhr_proto.json
+!xhr_open_src.txt
+# 纯算法插桩产物 (--capture-inner 取钥用, 代码不开源)
+inner_injected.js

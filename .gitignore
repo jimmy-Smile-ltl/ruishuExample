@@ -39,3 +39,20 @@ rpc_profile/
 */nodenv/push_instrumented.js
 */nodenv/eval_thisa1_*.js
 */nodenv/run_vm.js.bak*
+
+# === 纯算法路线: 文档开源、代码不开源 (防滥用, 见 CONTRIBUTING.md) ===
+# 站点纯算法目录: 仅 README 文档入库, 其余全部忽略
+*/pure_algo/*
+!*/pure_algo/README.md
+!*/pure_algo/patches/
+!*/pure_algo/patches/README.md
+# 存量站点纯算法可运行代码 (本地保留, 不入库)
+site_b_standard/spider.py
+site_b_standard/patch_rs_reverse.py
+site_d_debugger/spider_rs_pure.py
+site_d_debugger/patch_rs_reverse_site_d.py
+site_d_debugger/_runTask_hoist_v7.tpl.js
+tax_ruishu/spider_rs_pure.py
+tax_ruishu/patch_rs_reverse_tj.py
+tax_ruishu/lenTj.js
+patent_cnipa/epub/spider_rs_pure.py

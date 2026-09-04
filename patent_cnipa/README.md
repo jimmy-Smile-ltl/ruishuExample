@@ -39,12 +39,12 @@ CNIPA 专利局两个站点共享同族瑞数 WAF（`$_ts.nsd/cd` + O/P 双 cook
 | B | **nodenv 零依赖手写补环境** | 纯 Node 内置 + curl_cffi | 13.2-13.8s | ✅ 200（9/9） | 未测 | 2026-09-01 打通，无需 sdenv |
 | C | **CDP RPC**（浏览器原生过挑战） | Chrome + websocket-client | ~3s/页 | ✅ 可过挑战 | ✅ **生产爬虫** | 翻页需页面内 token |
 | D | handpatch 手写补环境 | 纯 Node | — | ❌ 400 | — | 2026-08-15 早期尝试，233c 恒 400 |
-| E | rs-reverse 纯算法 | rs-reverse | ~1s | ❌ 未打通 | ✅ **200**（2026-09-03，P 257c） | 检索站 codemap op 语义错位（pro38 归档）；**公布公告站 len133 适配器命中**，见 epub/spider_rs_pure.py |
+| E | rs-reverse 纯算法 | rs-reverse | ~1s | ❌ 未打通 | ✅ **200**（2026-09-03，P 257c） | 🔒 **代码不开源**；检索站 codemap op 语义错位（pro38 归档）；公布公告站 len133 适配器命中 |
 
 **选型结论**：
 - 要**零 npm 依赖**且能接受 ~13s → **B nodenv**（`python spider_nodenv.py`）
 - 要**最快纯 HTTP** → A sdenv（`python spider_sdenv.py`，jsdom 执行更快）
-- 要**生产爬数据**（公布公告站）→ C CDP RPC（页面内 token 免逆向，断点续爬）或 **E rs-reverse 纯算法（epub 200，~1s/次，零浏览器）**
+- 要**生产爬数据**（公布公告站）→ C CDP RPC（页面内 token 免逆向，断点续爬）；E 纯算法（epub 200，~1s/次，零浏览器）**代码不开源**（见下方路线详解）
 - D 是逆向研究的教训沉淀，不可投产；E 对公布公告站可用（epub），检索站仍 ❌
 
 ## 快速启动
@@ -116,11 +116,14 @@ curl_cffi (impersonate=chrome110)          ← TLS 指纹与最终回放一致�
 - 失败根因：缺 window/document 键集对齐（8 处）等环境细节 + codegen phase-2 未执行。
 - 后被 nodenv（B 路线）以完整修复链取代。证据链与诊断方法论见 `handpatch/README.md`。
 
-### E. rs-reverse 纯算法（❌ 未打通）
+### E. rs-reverse 纯算法（检索站 ❌ / 公布公告站 ✅，代码不开源）
 
-- rs-reverse（pysunday）对本站的 codemap op 语义错位（真实 VM op4=push 字面量 vs
+- **检索站 ❌ 未打通**：codemap op 语义错位（真实 VM op4=push 字面量 vs
   codemap op4=pop+store），trace 已反推 116 op 真实语义表，但脱离 trace 复现 offset
   的表映射未完成。深挖资产在 pro38 归档（`real_op_table.md` 等），不在本仓库。
+- **公布公告站 ✅ 200（2026-09-03，P 257c，~1s/次）**：len133-encrypt111 适配器命中，
+  202 挑战 → 纯算法生成 P → 回放 200。🔒 可运行代码（epub/spider_rs_pure.py）**不开源**，
+  技术要点：len133 basearr 布局 + encrypt111 内层模式 + TARGET 从 202 页字段提取。
 
 ## 避坑
 
@@ -143,7 +146,8 @@ patent_cnipa/                 # 站点族项目
 ├── nodenv/                   # B 路线: 零依赖手写补环境 (env.js/run_vm.js + 指纹对齐表)
 ├── epub/                     # 公布公告站 (202 变体, 免登录, 可全量爬)
 │   ├── spider_sdenv.py       #   A 路线链式验证
-│   └── rpc_spider.py         #   C 路线生产爬虫 (CDP RPC, 断点续爬)
+│   ├── rpc_spider.py         #   C 路线生产爬虫 (CDP RPC, 断点续爬)
+│   └── spider_rs_pure.py     #   🔒 E 路线纯算法 (len133 适配器, 200 实测, 代码不开源)
 ├── handpatch/                # D 路线失败归档 (233c 恒 400, 教训 + 方法论)
 ├── package.json / .gitignore
 └── output/                   # 运行时产物 (已 gitignore)

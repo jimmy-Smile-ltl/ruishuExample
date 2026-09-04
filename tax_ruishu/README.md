@@ -1,5 +1,8 @@
 # 站点F：税务局（TLS 指纹双变体版）
 
+> 🔒 **开源策略**：纯算法路线（`spider_rs_pure.py` / `patch_rs_reverse_tj.py` / `lenTj.js`）
+> **代码不开源**（防被直接用于大规模未授权采集），技术分析过程全部公开于本文第三节。
+> 补环境双路线（手写 v3 / sdenv）正常开源。
 > 瑞数6代 + **按 HTTP 层指纹（TLS/JA3）分发两套挑战 JS 的"双变体"机制**——本仓库此前未收录的新版本特征。
 > 目标 URL 已 base64 编码（运行时自动解码），实名映射见仓库根 `sites_mapping.local.md`。
 
@@ -21,14 +24,14 @@
 
 | 路线 | 关键文件 | 实测 |
 |------|---------|------|
-| **rs-reverse 纯算法**（主推） | `spider_rs_pure.py` + `patch_rs_reverse_tj.py` + `lenTj.js` | ✅ **7/7 轮 200，~1s/次** |
+| **rs-reverse 纯算法**（🔒 代码不开源，分析见第三节） | `spider_rs_pure.py` + `patch_rs_reverse_tj.py` + `lenTj.js` | ✅ **7/7 轮 200，~1s/次** |
 | 手写补环境（备用） | `spider_manual_env.py` + `browser_envs_v3.js` | ✅ 5/5 轮 200，2.2-3.0s/次 |
 | **sdenv 补环境**（2026-08-19 新通） | `spider_sdenv_tj.py` + `generate_cookie_tj.js` | ✅ 2/2 轮 200，~17s/次 |
 
 ```bash
-# 纯算法（无浏览器，最快）
-pip install curl_cffi && npm install rs-reverse
-python patch_rs_reverse_tj.py && python spider_rs_pure.py
+# 纯算法代码未开源（仅记录调用链）
+# pip install curl_cffi && npm install rs-reverse
+# python patch_rs_reverse_tj.py && python spider_rs_pure.py
 
 # 手写补环境（零 npm 依赖，备用）
 pip install curl_cffi && python spider_manual_env.py
@@ -37,7 +40,7 @@ pip install curl_cffi && python spider_manual_env.py
 python spider_sdenv_tj.py
 ```
 
-## 三、纯算法路线分析过程（完整链路）
+## 三、纯算法路线分析过程（完整链路）🔒 代码不开源，本文为完整技术记录
 
 ### 1. makecode（VM 还原）
 
@@ -107,9 +110,9 @@ basearrEncrypt = Feistel-CBC(xor(Huffman(basearr), keys2[:16]), numarrAddTime(ke
 
 | 文件 | 说明 |
 |------|------|
-| `spider_rs_pure.py` | 纯算法主脚本（同轮抓料 + makecookie + T/P 验证） |
-| `patch_rs_reverse_tj.py` | 一键补丁（上游 bug×2 + lenTj 适配器 + Cookie.js 修复 + 运行时配置） |
-| `lenTj.js` | 站点适配器（173 值 basearr 完整重建，动态位全定位） |
+| `spider_rs_pure.py` | 🔒 纯算法主脚本（**不开源**，仅本地保留） |
+| `patch_rs_reverse_tj.py` | 🔒 一键补丁（**不开源**） |
+| `lenTj.js` | 🔒 站点适配器 173 值 basearr 重建（**不开源**） |
 | `spider_manual_env.py` | 手写补环境备用方案 |
 | `browser_envs_v3.js` | 补环境模板（setFuncNative 37+ 函数 + 异步 timer + process 隐藏） |
 | `spider_sdenv_tj.py` | sdenv 补环境主脚本（curl_cffi 抓料 + node 生成 cookie + 验证） |

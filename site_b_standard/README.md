@@ -4,6 +4,10 @@
 
 防护：**瑞数**（412 挑战 + 双 Cookie + JSVMP 双层 VM）
 
+> 🔒 **开源策略**：本目录为纯算法路线，**可运行代码（`spider.py` / `patch_rs_reverse.py`）
+> 不开源**（防被直接用于大规模未授权采集），本文档为完整技术记录。
+> 想直接跑通瑞数站点请使用仓库内开源的补环境/浏览器路线（sdenv / nodenv / CDP / ruyiPage）。
+
 > 匿名化说明：站名使用代号（站点B），目标 URL 为 base64 编码。
 > 解码：`echo <b64> | base64 -d`（bash）/ `[Convert]::FromBase64String("<b64>")`（PowerShell）。
 
@@ -40,15 +44,17 @@ basearr = 站点适配器模板                      # ★ 关键: 每站不同
 
 ## 用法
 
+> 🔒 代码未开源，以下命令仅为已获代码者记录调用链：
+
 ```bash
 # 1. 安装依赖（在本目录执行）
 npm install rs-reverse
 
 # 2. 打 2 个 Windows 兼容补丁（sdenv-extract 路径 bug + gv._ts getter）
-python patch_rs_reverse.py
+# python patch_rs_reverse.py
 
 # 3. 跑爬虫（生成 cookie → 验证 200 → 保存页面）
-python spider.py
+# python spider.py
 ```
 
 成功输出：`site_b_200.html`（200 页面）+ 控制台打印 P cookie 长度。
@@ -57,9 +63,9 @@ python spider.py
 
 | 文件 | 说明 |
 |------|------|
-| `spider.py` | curl_cffi 调度：412 → node makecookie → 带 O+P 验证 200 |
-| `patch_rs_reverse.py` | 安装后自动打 2 个 bug 补丁 |
-| `README.md` | 本文件 |
+| `spider.py` | 🔒 curl_cffi 调度：412 → node makecookie → 带 O+P 验证 200（**不开源**） |
+| `patch_rs_reverse.py` | 🔒 安装后自动打 2 个 bug 补丁（**不开源**） |
+| `README.md` | 本文件（技术记录，开源） |
 
 ## 依赖与坑
 

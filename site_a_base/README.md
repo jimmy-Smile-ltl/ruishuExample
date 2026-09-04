@@ -28,6 +28,7 @@
 | **nodenv 零依赖手写补环境** | `spider_nodenv.py` + `nodenv/` | **3/5 校**（兰州/北邮/南师各 5/5） | 13-14s | 纯 Node 内置（无 npm） | 无浏览器部署·零依赖（2026-09-02 15/15）；川大/南理工用独立锁定模板 |
 | Camoufox | `spider_camoufox.py` | 5/5* | 2-10s | Firefox / Playwright | 备胎 |
 | DrissionPage | `spider_drission.py` | 5/5 | 2-128s | 系统 Chrome / CDP | 稳妥但慢 |
+| **rs-reverse 纯算法（2026 变体）** | `pure_algo/spider_pure.py` + `pure_algo/rs_school_*.js` | **2/5 校**（兰州/南师各 200 实测） | ~70s/轮 | 纯 Node + curl_cffi | 密码链全还原，从零生成 P；basearr 暂由同轮 nodenv 提供（模板化后完全去 VM） |
 
 \* Camoufox 在出口节点 IP 被站点标记时会失败（见"关键经验 2"），换节点即恢复。
 
