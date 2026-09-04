@@ -17,9 +17,9 @@
 |------|--------------|-------------------------|
 | 兰州大学（985） | `aHR0cHM6Ly93d3cubHp1LmVkdS5jbg==` | ✅ 从零生成 P 回放 200（2/2 轮） |
 | 南京师范大学（211） | `aHR0cHM6Ly93d3cubmpudS5lZHUuY24=` | ✅ 从零生成 P 回放 200（1/1 轮） |
-| 北京邮电大学（211） | `aHR0cHM6Ly93d3cuYnVwdC5lZHUuY24=` | ⚠️ 链通（提取+生成全对），回放卡 nodenv 基线 412（挑战页缓存 ~9.5min） |
+| 北京邮电大学（211） | `aHR0cHM6Ly93d3cuYnVwdC5lZHUuY24=` | ✅ 从零生成 P 回放 200（1/1 轮，S 形态回放用 T 名） |
 | 四川大学（985） | `aHR0cHM6Ly93d3cuc2N1LmVkdS5jbg==` | —（当前 WAF 已撤，200 直通；09-04 曾打通 202 变体注入模式） |
-| 南京理工大学（211） | `aHR0cHM6Ly93d3cubmp1c3QuZWR1LmNu` | ❌ meta-embedded 挑战形态（cd 编码在 meta content），暂不支持 |
+| 南京理工大学（211） | `aHR0cHM6Ly93d3cubmp1c3QuZWR1LmNu` | ❌ 瑞数 **5 代**（P 开头 5、138KB VM、202+S+T 形态），meta 需 boot-VM 解码 |
 
 ## 当前口径（重要）
 
@@ -105,14 +105,13 @@ node rs_school_gen.js         # RS_BA=<basearr> RS_TIME=<秒> RS_PREFIX=<a|0> ..
    （可选 hostname）+ 经典段（74 值，仅 X,Y 两字节随机）+ 尾部段（组合随轮变）。
    hostname 非必需（无 hostname 的轮照样 200）。经典段跨轮恒定：
    `[3,73,1,0,33,128,159,173,0,238,8,"MacIntel",0,0,X,Y,50,8,0,0,1,0×7,3,0,4,0,3,0,4,0×6,7,0×7,121,211,210,212,0×12]`
-2. **bupt**：密码链全通（字母表 cp0[817] 自动检出、hasDebug、na 193 值提取+生成全对），
-   回放卡 nodenv 基线 412。特征：S-cookie 形态（412 直接下发 S）+ VM 写 3 个值
-   （T「0pDAUdn…」→ P「0pwoOdaU…」→ 最终值）+ na 的 [6..9] 恒定 = 抓取时刻 -569~574s
-   （挑战页缓存 ~9.5 分钟）→ 疑似服务端按挑战铸造时间 + 缓存窗口校验，回放总在窗口边缘。
-   名字变体（T名/P名）与时间变体（原时间/全新时间）实测均 412，需进一步还原 bupt 的
-   时间语义（[铸造时刻][运行时刻] 与窗口的关系）。
-3. **njust**：meta-embedded 形态（202 + S cookie + cd 编码在 1905 字符 meta content：
-   `{qr0r4qqr1r0qq.M_Vo0pBKY...}` 以 qqqq 分段 + 138KB 小 VM + 内联 boot IIFE +
-   body 触发 `_$91('1EAL')`/`_$jU()`）。rs-reverse 无原生 meta 形态支持，第一步 =
-   逆向 boot 脚本的 meta→cd 解码（去除 {}/qqqq 填充），第二步 = 138KB VM 的 key 派生。
-   补环境侧已有 env_njust 锁定模板（3/3 200）可作参照。
+2. ~~bupt~~ **✅ 已通（2026-09-05 夜）**：回放命名修复 = **S 形态用 T 名**（S 名去尾+T，
+   非 P 名！）——此前全 412 是改名错误 + 陈旧轮。修复后纯算法生成 200（1/1）。
+   na 的 [6..9]=挑战铸造时刻（缓存 ~9.5min）、[10..13]=运行时刻的语义服务端接受，
+   无需特殊处理；生成端直接沿用 na 原时间即可。
+3. **njust**：**瑞数 5 代**（非 6 代！）实锤：P = 173c 开头 '5'（版本速查表的 5 代标记）、
+   vm = 138KB、202 + S cookie（FSSBBIl1UgzbN7NS）→ 回放 T 名（FSSBBIl1UgzbN7NT，
+   同 bupt 的 S→T）。env_njust runner 出 P 171-173c ✓（补环境侧可用）。
+   纯算法实测：meta 直接当 cd → offsets 负值垃圾（`[-46,2,54,...]`）→ 字母表未命中。
+   下一步 = 21KB boot-VM（`_$aG` 字节码解释器）的 meta→cd 解码 + 5 代 key 派生，
+   或沿用 5 代专用适配器路线。

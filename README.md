@@ -30,7 +30,7 @@
 | [site_e_enhanced](site_e_enhanced/)（站点E） | 中国信息通信研究院 | ✅ 活跃（2026-08-19 实测 200） | **jsdom 同步 flush**（421 chars 秒出）/ sdenv / CloakBrowser |
 | [site_b_standard](site_b_standard/)（站点B） | 国家电网招聘网 | ✅ 活跃 | **rs-reverse 纯算法**（1.06s，200 验证）🔒 |
 | [site_c_v67](site_c_v67/)（站点C） | 深圳大学总医院 | ✅ | sdenv / DrissionPage / CDP 零注入 / Camoufox |
-| [site_a_base](site_a_base/)（站点A） | 5 所大学高校（逐一展示见下） | ✅ 2026-09-02 五校复测 | sdenv / **nodenv 零依赖手写补环境** / env_scu·env_njust 锁定模板 / CDP / ruyiPage / Camoufox / DrissionPage / **rs-reverse 纯算法 2026 变体 🔒**（兰州+南师 200，2026-09-05，见 [pure_algo](site_a_base/pure_algo/)） |
+| [site_a_base](site_a_base/)（站点A） | 5 所大学高校（逐一展示见下） | ✅ 2026-09-02 五校复测 | sdenv / **nodenv 零依赖手写补环境** / env_scu·env_njust 锁定模板 / CDP / ruyiPage / Camoufox / DrissionPage / **rs-reverse 纯算法 2026 变体 🔒**（兰州+南师+北邮 200，2026-09-05，见 [pure_algo](site_a_base/pure_algo/)） |
 | [site_d_debugger](site_d_debugger/)（站点D） | 药监局 | ✅ | sdenv 链式 / CDP / rs-reverse 纯算法 🔒 / 手写补环境 v3 / 手写 harness / **RPC pajax 数据层**（0.2s/页） |
 | [tax_ruishu](tax_ruishu/)（站点F） | 税务局（TLS 指纹双变体版） | ✅ | **rs-reverse 纯算法 len173 自制适配器 🔒**（7/7 轮 200，~1s）/ 手写补环境 v3（5/5）/ **sdenv jsdom**（2/2，~17s） |
 | [patent_cnipa](patent_cnipa/)（站点G） | 专利局双站（检索 + 公布公告，同族 WAF） | ✅ 2026-09-01 三路线 200 | **sdenv 链式**（10-20s）/ **nodenv 零依赖手写补环境**（13.2-13.8s，9/9）/ **CDP RPC** 生产爬虫；**公布公告站 rs-reverse 纯算法 200 🔒**（2026-09-03，~1s）；另 2 条不可行路线归档（handpatch / 检索站 rs-reverse）——完整路线全景见子目录 [README](patent_cnipa/README.md) |
@@ -46,13 +46,13 @@
 |------|--------------|-------------------------------|
 | 兰州大学（985） | `aHR0cHM6Ly93d3cubHp1LmVkdS5jbg==` | **nodenv 零依赖手写补环境 5/5**（14.0-14.4s，P=335c）· **rs-reverse 纯算法 200 🔒（2026-09-05）** · sdenv 13-15s · CDP/ruyiPage |
 | 四川大学（985） | `aHR0cHM6Ly93d3cuc2N1LmVkdS5jbg==` | **env_scu 锁定模板 3/3**（P=279c，runner 框架）· sdenv · CDP/ruyiPage |
-| 北京邮电大学（211） | `aHR0cHM6Ly93d3cuYnVwdC5lZHUuY24=` | **nodenv 零依赖手写补环境 5/5**（13.4-13.6s，T=250c）· sdenv · CDP/ruyiPage |
+| 北京邮电大学（211） | `aHR0cHM6Ly93d3cuYnVwdC5lZHUuY24=` | **nodenv 零依赖手写补环境 5/5**（13.4-13.6s，T=250c）· **rs-reverse 纯算法 200 🔒（2026-09-05）** · sdenv · CDP/ruyiPage |
 | 南京师范大学（211） | `aHR0cHM6Ly93d3cubmpudS5lZHUuY24=` | **nodenv 零依赖手写补环境 5/5**（13.7-14.3s，T=250c）· **rs-reverse 纯算法 200 🔒（2026-09-05）** · sdenv · CDP/ruyiPage |
-| 南京理工大学（211） | `aHR0cHM6Ly93d3cubmp1c3QuZWR1LmNu` | **env_njust 锁定模板 3/3**（P=173c，meta-embedded 特殊形态）· sdenv · CDP/ruyiPage |
+| 南京理工大学（211） | `aHR0cHM6Ly93d3cubmp1c3QuZWR1LmNu` | **env_njust 锁定模板 3/3**（P=173c，meta-embedded 特殊形态；**瑞数 5 代**实锤）· sdenv · CDP/ruyiPage |
 
 > 解码：`echo <b64> | base64 -d`（bash）/ `[Convert]::FromBase64String("<b64>")`（PowerShell）。
 > 五校中 lzu/bupt/njnu 已统一到 nodenv 零依赖方案；scu/njust 因形态差异保留独立锁定模板（详见 [site_a_base/README.md](site_a_base/README.md)）。
-> 纯算法（2026 变体）2026-09-05 打通兰州+南师：密码链全还原（真字母表在 cp0、cd 同表解码、内层无 XOR），从零生成 P 回放 200；basearr 暂由同轮 nodenv 提供——详见 [pure_algo](site_a_base/pure_algo/)。
+> 纯算法（2026 变体）2026-09-05 打通兰州+南师+北邮：密码链全还原（真字母表在 cp0、cd 同表解码、内层无 XOR），从零生成 P 回放 200；basearr 暂由同轮 nodenv 提供——详见 [pure_algo](site_a_base/pure_algo/)。
 
 ## 路线 × 站点速查矩阵
 
@@ -60,7 +60,7 @@
 
 | 路线 \ 站点 | A 高校组 | B 招聘 | C 医院 | D 药监 | E 研究院 | F 税务 | G 专利局 | H 维普期刊 |
 |---|---|---|---|---|---|---|---|---|
-| **rs-reverse 纯算法** 🔒 | ⚠️ 兰州✅·南师✅（2026 变体，见 [pure_algo](site_a_base/pure_algo/)） | ✅ ⚡ 1.1s | — | ✅ ⚡ 1-4s | ❌ | ✅ ⚡ ~1s | ⚠️ 检索站❌·epub✅ | ❌ codemap env 缺失 |
+| **rs-reverse 纯算法** 🔒 | ⚠️ 兰州✅·南师✅·北邮✅（2026 变体，见 [pure_algo](site_a_base/pure_algo/)） | ✅ ⚡ 1.1s | — | ✅ ⚡ 1-4s | ❌ | ✅ ⚡ ~1s | ⚠️ 检索站❌·epub✅ | ❌ codemap env 缺失 |
 | **sdenv / jsdom 补环境** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ ⚡ 7-11.5s |
 | **jsdom 同步 flush**（提速变体） | — | — | — | — | ✅ ⚡ 421c | — | — | — |
 | **手写补环境**（零依赖） | ✅ 3/5 校 | — | ✅ 20/20 | ✅ 10/10 | ❌ | ✅ 5/5 | ✅ 9/9 | ✅ 2/2 |
@@ -170,8 +170,8 @@ python spider_sdenv_chain.py
 | 版本 | PPT cookie 开头 | `$_ts` 特征 | 本仓库站点 |
 |------|----------------|-------------|-----------|
 | 瑞数 VMP | 字母 / 0 | `$_ts.nsd` + `$_ts.cd` + `$_ts.lcd` | — |
-| **瑞数 6 代** | 6 | `$_ts.scj = []` | **全部 7 站（含各子形态）** |
-| 瑞数 5 代 | 5 | `$_ts.scj = []` | — |
+| **瑞数 6 代** | 6 | `$_ts.scj = []` | **除南理工外的全部站点（含各子形态）** |
+| 瑞数 5 代 | 5 | `$_ts.scj = []` | **南京理工大学**（P=173c 开头 '5'、138KB VM、202+S+T 形态，2026-09-05 实锤） |
 | 瑞数 4 代 | 4 | — | — |
 | 瑞数 3 代 | 3 | — | — |
 
@@ -180,8 +180,8 @@ python spider_sdenv_chain.py
 ![瑞数 cookie 版本速查](assets/ruishu_cookie_versions.png)
 
 > 图片来源：CSDN《如何通过cookie来区分这是瑞数反爬的几代》（作者 weixin_43411585，个人观点），
-> 图片与特征表仅供学习参考。本仓库 7 个站点实测**全部为瑞数 6 代系**，
-> 但子形态差异巨大（加强环境检测 / debugger 变体 hasDebug / TLS 指纹双变体 / 202 挑战 / meta-embedded），
+> 图片与特征表仅供学习参考。本仓库 8 个站点实测为瑞数 6 代系为主（南理工为 5 代，2026-09-05 实锤），
+> 且 6 代内子形态差异巨大（加强环境检测 / debugger 变体 hasDebug / TLS 指纹双变体 / 202 挑战 / meta-embedded），
 > 「都是 6 代」≠「同一套方案通吃」——选型仍以上面的路线 × 站点矩阵为准。
 
 ## 三档方案决策表（核心知识）
@@ -272,20 +272,19 @@ sequenceDiagram
 
 ## 开源策略
 
-**补环境 / 浏览器路线**（sdenv / nodenv / CDP / ruyiPage 等）：代码与文档全部开源，可直接复现。
+按技术路线分档（详见 [CONTRIBUTING.md §5](CONTRIBUTING.md)）：
 
-**纯算法路线**（rs-reverse 及自制适配器，🔒 标记）：**技术文档开源、可运行代码不开源**。
-纯算法方案秒级出 cookie，最容易被直接用于大规模未授权采集——为平衡「展示技术实力」与
-「降低滥用风险」，仓库对纯算法执行分层策略：
-
-| 层 | 内容 | 开源 |
+| 档 | 路线 | 策略 |
 |----|------|------|
-| 技术记录 | 密码学结论（Feistel-CBC/AES 变体/Huffman/basearr 适配器结构）、协议全解、字段来源、坑与修复、实测数据 | ✅ |
-| 可运行代码 | 生成器 / 适配器 / 补丁 / 全链调度脚本（`*/pure_algo/` 与各站点 `spider_rs_pure.py` 等） | ❌ |
+| ✅ 全开源 | **浏览器方案**（CDP / ruyiPage / Camoufox / DrissionPage / CloakBrowser / RPC） | 代码与文档全部提供，可直接复现 |
+| ✅ 全开源 | **sdenv 补环境** | 代码与文档全部提供 |
+| ⚠️ 谨慎展示 | **node 原生手写补环境**（nodenv 九件套） | 出于展示技术实力开源，仅限合规学习使用 |
+| 🔒 只展示不复现 | **纯算法**（rs-reverse 适配 / 自制生成器，🔒 标记） | **技术文档开源、可运行代码不开源**——重点告诉别人「我可以」，不让别人复现 |
 
-- 纯算法站点目录内 `pure_algo/` 仅文档入库，代码被 .gitignore 排除（本地保留）
-- 各站点纯算法条目均标注 🔒，技术记录照常写全——**能看懂方案、复现不了工具**
-- 想直接跑通瑞数站点，请使用仓库内开源的补环境/浏览器路线（sdenv 最通用）
+**纯算法分层细节**：技术记录（密码学结论、协议全解、适配器结构、坑与修复、实测数据）全部公开；
+可运行代码（生成器/适配器/补丁/调度脚本）不入库，`*/pure_algo/` 目录仅文档入库、代码被
+.gitignore 排除（本地保留）——**能看懂方案、复现不了工具**。想直接跑通瑞数站点，
+请使用仓库内开源的补环境/浏览器路线（sdenv 最通用）。
 
 ## 整理指引
 
