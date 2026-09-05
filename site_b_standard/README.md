@@ -91,6 +91,19 @@ npm install rs-reverse    # 注意: 本目录不能在 npm workspace 树内(否�
 对比同期的补环境/浏览器路线（sdenv 5/5、ruyiPage 5/5）：
 **适配过的站点 rs-reverse 最快最轻**（纯算法、无浏览器、秒级、curl_cffi 复用）。
 
+## iv8 运行时路线（2026-09-05 新增 ✅ 200, 1.0s）
+
+```bash
+pip install iv8 requests
+python spider_iv8.py      # 412 → iv8 VM → 200
+```
+
+- iv8 = Python 原生 V8 + C++ 层浏览器环境（社区版非商用许可，
+  github.com/HanZzzzz000/iv8），瑞数 VM 直接执行出 cookie
+- 与 rs-reverse 纯算法同速（1.0s vs 1.1s），但**免算法逆向、免 basearr 适配表维护**
+  ——版本轮换对 iv8 透明（跑的就是线上最新 JS）
+- 共享工具链在仓库根 `iv8_kit/`；所有 iv8 路线站点用法一致：改 URL 即用
+
 ## 注意事项
 
 - 瑞数 cookie 名每站随机（`<随机名>S/T` 等），脚本从响应动态解析，勿硬编码

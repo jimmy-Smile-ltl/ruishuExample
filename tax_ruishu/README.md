@@ -27,7 +27,7 @@
 | **rs-reverse 纯算法**（🔒 代码不开源，分析见第三节） | `spider_rs_pure.py` + `patch_rs_reverse_tj.py` + `lenTj.js` | ✅ **7/7 轮 200，~1s/次** |
 | 手写补环境（备用） | `spider_manual_env.py` + `browser_envs_v3.js` | ✅ 5/5 轮 200，2.2-3.0s/次 |
 | **sdenv 补环境**（2026-08-19 新通） | `spider_sdenv_tj.py` + `generate_cookie_tj.js` | ✅ 2/2 轮 200，~17s/次 |
-| **iv8 运行时**（pip 环境，同族重庆站） | `spider_iv8_cq.py` | ✅ 一次通过（2026-09-05，iv8 0.1.4） |
+| **iv8 运行时**（pip 环境，★ 本站+同族重庆站双通） | `spider_iv8_tj.py` / `spider_iv8_cq.py` | ✅ 天津站 1.2s / 重庆站一次通过（2026-09-05，iv8 0.1.4） || **iv8 运行时**（pip 环境，同族重庆站） | `spider_iv8_cq.py` | ✅ 一次通过（2026-09-05，iv8 0.1.4） |
 
 ```bash
 # 纯算法代码未开源（仅记录调用链）
@@ -37,6 +37,11 @@
 # 手写补环境（零 npm 依赖，备用）
 pip install curl_cffi && python spider_manual_env.py
 
+# sdenv 补环境（jsdom，需 npm sdenv）
+python spider_sdenv_tj.py
+
+# iv8 运行时（pip 环境，零 npm 依赖，2026-09-05 天津站实测 1.2s 200）
+pip install iv8 curl_cffi && python spider_iv8_tj.py    # 外部 JS 用 curl_cffi 抓（TLS 双变体坑）
 # sdenv 补环境（jsdom，需 npm sdenv）
 python spider_sdenv_tj.py
 ```

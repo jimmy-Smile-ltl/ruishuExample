@@ -29,9 +29,10 @@
 | 2. DrissionPage 过挑战 + cookie 复用 | `spider_drission.py` | DrissionPage + curl_cffi + Chrome | ~4s | ✅ 200 + 43 链接 |
 | 3. 原生 CDP 零注入 + cookie 复用 | `spider_cdp.py` | websocket-client + curl_cffi + Chrome | ~3s | ✅ 200 + 43 链接 |
 | 4. Camoufox 反检测浏览器 | `spider_camoufox.py` | camoufox | ~18s | ✅ 200 + 43 链接 |
-| **5. 手动补环境（纯 Node，无浏览器，★ 2026-08-15 v3 翻盘）** | `spider_manual_env.py` + `env/browser_envs.js` | curl_cffi + Node（零 npm 依赖） | **~3s** | ✅ 压测 20/20 轮 200 + 27/27 文章 |
+| **5. 手动补环境（纯 Node，无浏览器，★ 2026-08-15 v3 翻盘）** | `spider_manual_env.py` + `env/browser_envs.js` | curl_cffi + Node（零 npm 依赖） | **~3s** | ✅ 压测 20/20 轮 200 + 27/27 文章 || **6. iv8 运行时（pip C++ 环境，★ 2026-09-05 新首选）** | `spider_iv8.py` | Python 原生 V8 + C++ DOM（零 npm） | **1-4s** | ✅ 200（新闻中心页） |
 
-五个脚本均独立可运行，`python spider_xxx.py` 成功后在当前目录保存 `site_c_200_xxx.html`。
+
+六个脚本均独立可运行，`python spider_xxx.py` 成功后在当前目录保存 `site_c_200_xxx.html`。
 
 ### 方案 1：sdenv（纯算，无需浏览器）
 
@@ -84,6 +85,17 @@ import asyncio
 asyncio._set_running_loop(None)          # 清泄漏（Runner.close 内部同款）
 asyncio.set_event_loop(asyncio.new_event_loop())
 ```
+
+### 方案 6：iv8 运行时（pip C++ 环境，无浏览器·免 npm·免算法）
+
+```bash
+pip install iv8 requests
+python spider_iv8.py      # 412 → iv8 VM → 200
+```
+
+- iv8（github.com/HanZzzzz000/iv8，社区版非商用许可）把浏览器环境做在 C++ 层，
+  瑞数 VM 直接执行出 cookie，回放即 200（2026-09-05 实测 1-4.3s）
+- 比手动补环境还少一层「手写环境」的心智负担：环境是引擎原生实现，无需逐键对齐
 
 ## 已验证失败的路线（避坑）
 

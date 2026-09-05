@@ -26,6 +26,7 @@
 | **CDP 零注入** | `spider_cdp.py` | **5/5** | 5-6s | 真实 Chrome / CDP | Chrome 系首选（无第三方内核） |
 | sdenv 补环境 | `spider_sdenv.py` + `generate_cookie.js` | 5/5 | 13-15s | 纯 Node + curl_cffi | 无浏览器部署 |
 | **nodenv 零依赖手写补环境** | `spider_nodenv.py` + `nodenv/` | **3/5 校**（兰州/北邮/南师各 5/5） | 13-14s | 纯 Node 内置（无 npm） | 无浏览器部署·零依赖（2026-09-02 15/15）；川大/南理工用独立锁定模板 |
+| **iv8 运行时**（pip C++ 环境） | `spider_iv8.py` | **5/5 校** | **1.0-3.6s** ⚡ | Python 原生 V8 + C++ DOM | 🏆 无浏览器部署首选（2026-09-05 全通，比 nodenv 快约 10 倍，免算法） |
 | Camoufox | `spider_camoufox.py` | 5/5* | 2-10s | Firefox / Playwright | 备胎 |
 | DrissionPage | `spider_drission.py` | 5/5 | 2-128s | 系统 Chrome / CDP | 稳妥但慢 |
 | **rs-reverse 纯算法（2026 变体）** | `pure_algo/spider_pure.py` + `pure_algo/rs_school_*.js` | **2/5 校**（兰州/南师各 200 实测） | ~70s/轮 | 纯 Node + curl_cffi | 密码链全还原，从零生成 P；basearr 暂由同轮 nodenv 提供（模板化后完全去 VM） |
@@ -94,6 +95,22 @@ python spider_nodenv.py --site bupt    # 覆盖 lzu/bupt/njnu（--site 三选一
 - 核心教训（patent_cnipa 三阶段史）：400 = 8 处环境差异（键集/navigator/matchMedia）；
   0c = env cookie setter 用宿主 Date.now 误判 VM fixdate 的 expires 为过期（写完即删）；
   200 = fixDateMs 对齐。"最后卡点往往不是 VM 环境本身，而是宿主侧逻辑"
+
+### 3c. iv8 运行时（无浏览器·免 npm·免算法，🏆 2026-09-05 新首选）
+
+```bash
+pip install iv8 curl_cffi
+python spider_iv8.py --site bupt    # 覆盖五校：lzu/scu/bupt/njnu/njust
+```
+
+- iv8 = Python 原生 V8 + C++ 层浏览器环境（`pip install iv8`，社区版非商用许可，
+  github.com/HanZzzzz000/iv8）。瑞数 VM 直接在 iv8 里执行出 cookie，回放即 200
+- **5/5 校全通**（2026-09-05 实测）：bupt 1.0s / njust 1.1s（202 形态）/
+  njnu 1.4s / lzu 3.6s / scu 直通 200（无 WAF）——比 nodenv 快约 10 倍，
+  比 sdenv 快约 10-15 倍，零 npm 依赖，且**不用逆向算法**（VM 原样执行）
+- 共享工具链在仓库根 `iv8_kit/`（含 http 站 Secure 剥离 hook + 每轮全新 JSContext 等）
+- 两层通用坑（海关站逼出，已沉淀 iv8_kit）：http 站 Secure cookie 被 iv8 丢弃；
+  多轮挑战复用 JSContext 会状态污染（每轮须全新 context）
 
 ### 4. Camoufox
 

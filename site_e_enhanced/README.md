@@ -37,11 +37,12 @@ DOM 集合类型检测、数组膨胀惩罚），比基础版（常见于普通�
 |------|------|------|---------|
 | **2. jsdom + 同步 flush（推荐）** | `spider_jsdom_sync.py` + `jsdom_gen.js` | curl_cffi + Node + sdenv | ✅ **08-19 晚在线 200**（421 chars P 秒出）；生成器离线验证 407 chars P 与生产一致 |
 | 1. sdenv jsdom 补环境（真实 timer） | `spider_sdenv.py` | 同上 | ✅ 343 chars P / 200（历史实测，等 8s） |
-| 3. CloakBrowser 隐身浏览器 | `spider_cloakbrowser.py` | cloakbrowser | ✅ 浏览器原生 Cookie / 200（历史实测 ~83% 成功率） |
+| 3. CloakBrowser 隐身浏览器 | `spider_cloakbrowser.py` | cloakbrowser | ✅ 浏览器原生 Cookie / 200（历史实测 ~83% 成功率） || **4. iv8 运行时（pip C++ 环境，★ 2026-09-05 新通）** | `spider_iv8.py` | Python 原生 V8 + C++ DOM（零 npm） | ✅ **09-05 在线 200**（1.6s，秒级出 cookie） |
 
-三个脚本均独立可运行，成功后保存 `site_e_200_{方案}.html`。
 
-三个脚本均独立可运行，成功后保存 `site_e_200_{方案}.html`。
+四个脚本均独立可运行，成功后保存 `site_e_200_{方案}.html`。
+
+四个脚本均独立可运行，成功后保存 `site_e_200_{方案}.html`。
 
 ### 方案 1：sdenv（纯算，无浏览器）
 
@@ -68,6 +69,18 @@ jsdom 环境里把 setTimeout/setInterval 改成"收集回调 + 同步 flush"，
 
 隐身 Chromium（C++ 补丁，58 指纹修正）直接加载页面，瑞数挑战自动完成，
 `page.context.cookies()` 提取双 Cookie。列表页首次命中率 ~20%，脚本内建 15 次重试。
+
+### 方案 4：iv8 运行时（pip C++ 环境，无浏览器·免 npm）
+
+```bash
+pip install iv8 requests
+python spider_iv8.py      # 412 → iv8 VM → 200
+```
+
+- 2026-09-05 实测 ✅ 200（1.6s）——本站 09-02 曾三通道 404（疑似换 WAF），
+  09-05 复测瑞数回归且 iv8 一次过
+- iv8 与 jsdom 同步 flush 同为秒级，但 iv8 是 C++ 原生环境：免 npm、免手写 flush 时序，
+  且环境保真度由引擎保证（非 JS 层模拟可比）
 
 ## 已验证失败的路线（避坑）
 

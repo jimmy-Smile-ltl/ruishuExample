@@ -1,4 +1,4 @@
-# site_h_cqvip — 维普期刊 (CQVIP) 瑞数6 三路线：补环境双路线 + 纯算法（站点H，2026-09-05 实测 200）
+# site_h_cqvip — 维普期刊 (CQVIP) 瑞数6 四路线：补环境双路线 + 纯算法 + iv8 运行时（站点H，2026-09-05 实测 200）
 
 > 教程来源：牛客网 discuss【爬虫JS逆向实战】某中文期刊服务平台瑞数6代cookie逆向（866318313683443712）。
 > 匿名化说明：目标 URL 明文映射见仓库根 `sites_mapping.local.md`（本地维护，不入库）。
@@ -15,13 +15,14 @@
 | cookie | O-cookie（Set-Cookie 下发，HttpOnly，名每轮随机如 `6HZbKHDjIEcgS`）+ P-cookie（VM 本地生成，`6HZbKHDjIEcgT`，250-314c），同轮组合回放 |
 | 形态判断 | 与 patent_cnipa（站点G）同族 → nodenv/sdenv 模板改 URL 即过，**零适配** |
 
-## 成功路线（3/3 实测 200）
+## 成功路线（4/4 实测 200）
 
 | # | 路线 | 依赖 | 速度/轮 | P-cookie |
 |---|------|------|---------|----------|
 | A | **sdenv 链式**（jsdom 补环境） | npm sdenv + curl_cffi | ~7-11.5s ⚡ | 314c @3.8s |
 | B | **nodenv 零依赖手写补环境** | 纯 Node 内置 + curl_cffi | ~14s | 250c @12.2s |
-| C | **纯算法 v11**（realDf 加密链 + nodenv 取钥） | 纯 Node + curl_cffi | ~18s | 236c 3/3 稳定 |
+| C | **纯算法 v11**（realDf 加密链 + nodenv 取钥） | 纯 Node + curl_cffi | ~18s | 236c 3/3 稳定 || C | **纯算法 v11**（realDf 加密链 + nodenv 取钥） | 纯 Node + curl_cffi | ~18s | 236c 3/3 稳定 |
+| **D** | **iv8 运行时**（pip C++ 环境，🏆 新首选） | pip iv8 + requests | **~1.6s** ⚡ | 2 轮 200（167850b） |
 
 > 纯算法已攻克（2026-09-05 v11）：密码体系全破译 + 回放 200，见下方路线 C（`pure_algo/`）。
 > 攻坚全程归档于 pro42 项目 `PURE_ALGO_NOTES.md`（v1-v23）。
@@ -40,6 +41,16 @@ py -3.12 spider_nodenv.py --rounds=3
 # C. 纯算法 v11 🔒 代码不开源——技术记录见 pure_algo/README.md
 #    (realDf 加密链 + nodenv --capture-inner 取钥; 已实锤 5/5 轮 200, ~18s)
 ```
+
+### D. iv8 运行时（pip C++ 环境，无浏览器·免 npm·免算法，🏆 2026-09-05 新首选）
+
+```bash
+pip install iv8 requests
+py -3.12 spider_iv8.py --rounds=3    # 412 → iv8 VM → 200
+```
+
+- 2026-09-05 实测 ✅ 200（167850b, 1.6s, 2 轮）——nodenv ~14s 的 1/9 耗时
+- iv8（github.com/HanZzzzz000/iv8，社区版非商用许可）瑞数 VM 直接执行出 cookie
 
 ## 避坑
 

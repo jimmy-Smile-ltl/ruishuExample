@@ -43,7 +43,8 @@ CNIPA 专利局两个站点共享同族瑞数 WAF（`$_ts.nsd/cd` + O/P 双 cook
 
 **选型结论**：
 - 要**零 npm 依赖**且能接受 ~13s → **B nodenv**（`python spider_nodenv.py`）
-- 要**最快纯 HTTP** → A sdenv（`python spider_sdenv.py`，jsdom 执行更快）
+- 要**最快纯 HTTP** → A sdenv（`python spider_sdenv.py`，jsdom 执行更快）- 要**最快 + 零 npm 依赖 + 免算法** → D iv8 运行时（`python spider_iv8.py`，C++ 原生环境，1.1s ⚡）
+
 - 要**生产爬数据**（公布公告站）→ C CDP RPC（页面内 token 免逆向，断点续爬）；E 纯算法（epub 200，~1s/次，零浏览器）**代码不开源**（见下方路线详解）
 - D 是逆向研究的教训沉淀，不可投产；E 对公布公告站可用（epub），检索站仍 ❌
 
@@ -75,6 +76,18 @@ python rpc_spider.py 石墨烯 --max-pages 100
 $env:SDENV_DIR = "C:\...\spider research\node_modules"
 python spider_sdenv.py
 ```
+
+### D. iv8 运行时（pip C++ 环境，2026-09-05 新增，双站全通）
+
+```bash
+pip install iv8 requests
+python spider_iv8.py                    # 检索站: 412 → iv8 VM → 200（1.1s, 2 轮）
+cd epub && python spider_iv8.py         # 公布公告站: 202 → iv8 VM → 200（2.0s, http 站自动装 Secure 剥离 hook）
+```
+
+- iv8（github.com/HanZzzzz000/iv8，社区版非商用许可）把浏览器环境做在 C++ 层
+- 检索站 1.1s vs nodenv 13.2-13.8s / sdenv 10-20s；公布公告站 2.0s vs sdenv 17.3s / RPC 9.2s
+- 检索站业务数据仍需 CNIPA 登录（WAF 过 ≠ 数据可爬，同 nodenv）；公布公告站免登录
 
 ## 路线详解
 
