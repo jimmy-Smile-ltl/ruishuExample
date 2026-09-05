@@ -3,6 +3,11 @@
 在 rs-reverse v1.16.3 上游 + pro36 定制的基础上，2026 变体纯算法需要以下补丁。
 按文件列出，`src/` 路径相对于 rs-reverse 根目录。
 
+> 📦 **完整补丁代码随附本目录**：`rs_reverse_v1163_patches.diff`（1600 行，
+> 15 个文件的 v1.16.3 → pro36 patched 完整 diff，含本页全部补丁的实现）。
+> 该文件与本节全部补丁代码**仅本地保留、不入库**（gitignore），
+> 应用方式：`cd <rs-reverse> && git apply rs_reverse_v1163_patches.diff`。
+
 ## 1. `src/handler/globalVarible.js` — basestr 硬编码的坑（根源）
 
 上游 `get basestr()` 硬编码了**一个站点**的字母表。2026 变体各校字母表不同
