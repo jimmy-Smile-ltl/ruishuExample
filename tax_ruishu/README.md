@@ -27,6 +27,7 @@
 | **rs-reverse 纯算法**（🔒 代码不开源，分析见第三节） | `spider_rs_pure.py` + `patch_rs_reverse_tj.py` + `lenTj.js` | ✅ **7/7 轮 200，~1s/次** |
 | 手写补环境（备用） | `spider_manual_env.py` + `browser_envs_v3.js` | ✅ 5/5 轮 200，2.2-3.0s/次 |
 | **sdenv 补环境**（2026-08-19 新通） | `spider_sdenv_tj.py` + `generate_cookie_tj.js` | ✅ 2/2 轮 200，~17s/次 |
+| **iv8 运行时**（pip 环境，同族重庆站） | `spider_iv8_cq.py` | ✅ 一次通过（2026-09-05，iv8 0.1.4） |
 
 ```bash
 # 纯算法代码未开源（仅记录调用链）
@@ -117,6 +118,7 @@ basearrEncrypt = Feistel-CBC(xor(Huffman(basearr), keys2[:16]), numarrAddTime(ke
 | `browser_envs_v3.js` | 补环境模板（setFuncNative 37+ 函数 + 异步 timer + process 隐藏） |
 | `spider_sdenv_tj.py` | sdenv 补环境主脚本（curl_cffi 抓料 + node 生成 cookie + 验证） |
 | `generate_cookie_tj.js` | sdenv 模板（jsdomFromText + meta 注入 + O cookie 预置 + escape 保留） |
+| `spider_iv8_cq.py` | iv8 运行时路线（同族重庆站，pip iv8，XHR hook 捕获签名 URL，2026-09-05 一次通过） |
 | `tj_200.html` | 200 页面样本 |
 
 ## 六、打包验证（2026-08-19，从本目录复测）

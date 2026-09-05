@@ -36,8 +36,9 @@
 | 4. 手写补环境 v3（Node 零依赖） | `spider_env_v3.py` + `build_env.js` + `native_patch.js` | 仅 curl_cffi | ~2-8s/轮 | ✅ v2 稳定化后 10/10 轮通过（同轮多跑 + 双复验） |
 | 5. 手写 harness + browser() 直调 | `spider_handpatch.py` + `build_env_browser.js` | curl_cffi + Node + sdenv(仅补丁函数) | ~5-8s/页 | ✅ 三页全 200（2026-08-15 攻克） |
 | 6. RPC 直达 pajax 数据层（★ 数据采集首选） | `spider_rpc.py` | websocket-client + Chrome | ~0.2s/页 | ✅ 阿莫西林 572 条/58 页全通 |
+| 7. iv8 运行时（pip 环境，无浏览器） | `spider_iv8.py` | pip iv8 + requests | **0.65s 出 cookie** | ✅ 阿莫西林 575 条（2026-09-05 实测） |
 
-方案 1-6 均独立可运行（方案 4 用 v2 稳定化：同轮多跑 + 双复验）。
+方案 1-7 均独立可运行（方案 4 用 v2 稳定化：同轮多跑 + 双复验）。
 
 ### 方案 1：sdenv 链式补环境（纯算 + jsdom，无浏览器依赖）
 
@@ -180,6 +181,30 @@ python spider_rpc.py --file keywords.txt         # 批量关键词
 python spider_rpc.py 阿莫西林 --max-pages 3 --fresh --proxy http://127.0.0.1:7897
 ```
 
+### 方案 7：iv8 运行时（Python 原生 V8 + C++ 环境，0.65s 出 cookie，2026-09-05 实测）
+
+```
+requests (MD5 sign 旧版签名) 拿 412
+  └─ iv8.JSContext (pip install iv8, C++ 层 V8 + 浏览器 API)
+       └─ page.load 离线执行瑞数 VM → document.cookie 出 P (0.65s)
+       └─ 携 cookie 重放 → 200 JSON (阿莫西林 575 条)
+```
+
+要点：
+
+1. **iv8 = 无浏览器环境模拟的新一代形态**：C++ 层实现 BOM/DOM/CSSOM（70+ 元素、
+   80+ 事件），真 V8 引擎，环境保真度高于 jsdom/手写——瑞数 VM 直接可跑，无需补丁
+2. **极快**：出 cookie 0.65s（对比 sdenv ~4s、手写 v3 2-8s、CDP 2-5s），
+   pip 一条命令安装，无编译门槛
+3. 本方案仍用旧版接口 MD5 sign（`nmpasecret2020` 盐，见附录）——sign 与
+   瑞数 cookie 是两层，此接口 sign 算法至今有效
+4. iv8 为第三方**社区版**（非商用许可），本仓库只收录用法脚本，本体请 `pip install iv8`
+
+```bash
+pip install iv8 requests
+python spider_iv8.py --kw 阿莫西林 --page 1
+```
+
 ---
 
 ## 验证结果（2026-08-13 ~ 08-15 连续实测）
@@ -191,9 +216,10 @@ python spider_rpc.py 阿莫西林 --max-pages 3 --fresh --proxy http://127.0.0.1
 方案 4: 数据查询 10/10 轮稳定通过 (v2 同轮多跑, 平均 2.3 跑/轮, 200 双复验)
 方案 5: 首页 PASS (7.9s, 52573b)  数据查询 PASS (4.7s, 25195b)  搜索结果 PASS (0.1s, 会话复用)
 方案 6: 数据查询 RPC 直达 PASS (0.2s/页, 阿莫西林 572 条/58 页全通)
+方案 7: 数据查询 iv8 PASS (0.65s 出 cookie, 阿莫西林 575 条, 2026-09-05 实测)
 ```
 
-判定标准：搜索页（/datasearch/）通过才算通过 —— 六方案均满足。
+判定标准：搜索页（/datasearch/）通过才算通过 —— 七方案均满足。
 
 ## 文件
 
@@ -211,6 +237,7 @@ python spider_rpc.py 阿莫西林 --max-pages 3 --fresh --proxy http://127.0.0.1
 | `spider_handpatch.py` | 方案 5 主入口：curl_cffi 链式 + 调用 build_env_browser.js |
 | `build_env_browser.js` | 方案 5 执行器：JSDOM + browser(w,'chrome') 直调（脱离 jsdomFromText 流程） |
 | `spider_rpc.py` | 方案 6：RPC 直达 pajax 数据爬虫（自包含 CDP 客户端，零注入 + awaitPromise） |
+| `spider_iv8.py` | 方案 7：iv8 运行时（pip 环境出 cookie 0.65s + 旧版 MD5 sign） |
 | `rpc_profile/` | 方案 6 运行时的 Chrome 持久 profile（自动生成） |
 | `纯算法攻克思路.md` | 方案 3 完整技术思路：诊断链、同轮对比法、len160 推导、方法论总结 |
 | `cdp_profile/` | 方案 2 运行时的 Chrome 持久 profile（自动生成） |

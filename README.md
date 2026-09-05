@@ -1,11 +1,11 @@
 # 瑞数 WAF 逆向方案集 — 总索引
 
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
-[![sites](https://img.shields.io/badge/sites-7-brightgreen)]()
-[![routes](https://img.shields.io/badge/routes-20%2B-orange)]()
+[![sites](https://img.shields.io/badge/sites-9-brightgreen)]()
+[![routes](https://img.shields.io/badge/routes-25%2B-orange)]()
 [![verified](https://img.shields.io/badge/verified-200-2026--09-lightgrey)]()
 
-**7 个真实瑞数站点 · 20+ 条技术路线 · 全部 200 通关**，覆盖纯算法 / 补环境 / 浏览器三大技术族。
+**9 个真实瑞数站点 · 25+ 条技术路线 · 覆盖纯算法 / 补环境 / 浏览器三大技术族**，
 每条路线都是「能请求到数据的最小可行代码」，含实测数据与避坑记录，可直接对照落地。
 
 ## 目录
@@ -35,8 +35,9 @@
 | [tax_ruishu](tax_ruishu/)（站点F） | 税务局（TLS 指纹双变体版） | **6 代·TLS 双变体** | ✅ | **rs-reverse 纯算法 len173 自制适配器 🔒**（7/7 轮 200，~1s）/ 手写补环境 v3（5/5）/ **sdenv jsdom**（2/2，~17s） |
 | [patent_cnipa](patent_cnipa/)（站点G） | 专利局双站（检索 + 公布公告，同族 WAF） | **6 代·412/202 双形态** | ✅ 2026-09-01 三路线 200 | **sdenv 链式**（10-20s）/ **nodenv 零依赖手写补环境**（13.2-13.8s，9/9）/ **CDP RPC** 生产爬虫；**公布公告站 rs-reverse 纯算法 200 🔒**（2026-09-03，~1s）；另 2 条不可行路线归档（handpatch / 检索站 rs-reverse）——完整路线全景见子目录 [README](patent_cnipa/README.md) |
 | [site_h_cqvip](site_h_cqvip/)（站点H） | 维普期刊（qikan 期刊服务平台） | **6 代·classic** | ✅ 2026-09-05 三路线 200 | **sdenv 链式**（~7-11.5s）/ **nodenv 零依赖手写补环境**（~14s）/ **纯算法 v11 🔒**（realDf 加密链+nodenv 取钥 ~18s，密码体系全破译）——与站点G同族，补环境模板改 URL 即过 |
+| [site_i_customs](site_i_customs/)（站点I） | 海关信用系统 | **6 代·http 变体** | ❌ iv8 未通（两层根因归档） | iv8 运行时边界样本：Secure 丢弃已修 + P 密码学无效未修；同批**税务/药监/欧冶 iv8 一次通过** |
 
-> 目录使用代号（site_A~H）；真实站点映射与明文 URL 见 `sites_mapping.local.md`（本地维护，不入库）。仓库内 URL 一律 base64 编码存储，运行时解码。
+> 目录使用代号（site_A~I）；真实站点映射与明文 URL 见 `sites_mapping.local.md`（本地维护，不入库）。仓库内 URL 一律 base64 编码存储，运行时解码。
 
 ### 站点A · 五所大学高校（逐一展示）
 
@@ -58,14 +59,15 @@
 
 一眼看全「哪条路线在哪站跑通」——✅ 实测 200 · ⚡ 该站最快 · ❌ 已证不可行 · — 未实施：
 
-| 路线 \ 站点 | A 高校组 | B 招聘 | C 医院 | D 药监 | E 研究院 | F 税务 | G 专利局 | H 维普期刊 |
-|---|---|---|---|---|---|---|---|---|
-| **rs-reverse 纯算法** 🔒 | ⚠️ 兰州✅·南师✅·北邮✅（2026 变体，见 [pure_algo](site_a_base/pure_algo/)） | ✅ ⚡ 1.1s | — | ✅ ⚡ 1-4s | ❌ | ✅ ⚡ ~1s | ⚠️ 检索站❌·epub✅ | ❌ codemap env 缺失 |
-| **sdenv / jsdom 补环境** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ ⚡ 7-11.5s |
-| **jsdom 同步 flush**（提速变体） | — | — | — | — | ✅ ⚡ 421c | — | — | — |
-| **手写补环境**（零依赖） | ✅ 3/5 校 | — | ✅ 20/20 | ✅ 10/10 | ❌ | ✅ 5/5 | ✅ 9/9 | ✅ 2/2 |
-| **CDP / RPC**（真实 Chrome） | ✅ | — | ✅ | ✅ ⚡ 0.2s RPC | — | — | ✅ RPC 生产 | — |
-| **反检测浏览器**（ruyiPage 等） | ✅ | ✅ | ✅ | — | ✅ | — | — | — |
+| 路线 \ 站点 | A 高校组 | B 招聘 | C 医院 | D 药监 | E 研究院 | F 税务 | G 专利局 | H 维普期刊 | I 海关 |
+|---|---|---|---|---|---|---|---|---|---|
+| **rs-reverse 纯算法** 🔒 | ⚠️ 兰州✅·南师✅·北邮✅（2026 变体，见 [pure_algo](site_a_base/pure_algo/)） | ✅ ⚡ 1.1s | — | ✅ ⚡ 1-4s | ❌ | ✅ ⚡ ~1s | ⚠️ 检索站❌·epub✅ | ❌ codemap env 缺失 | — |
+| **sdenv / jsdom 补环境** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ ⚡ 7-11.5s | — |
+| **jsdom 同步 flush**（提速变体） | — | — | — | — | ✅ ⚡ 421c | — | — | — | — |
+| **iv8 运行时**（pip C++ 环境） | — | — | — | ✅ ⚡ 0.65s | — | ✅ 重庆站 | — | — | ❌ 边界样本 |
+| **手写补环境**（零依赖） | ✅ 3/5 校 | — | ✅ 20/20 | ✅ 10/10 | ❌ | ✅ 5/5 | ✅ 9/9 | ✅ 2/2 | — |
+| **CDP / RPC**（真实 Chrome） | ✅ | — | ✅ | ✅ ⚡ 0.2s RPC | — | — | ✅ RPC 生产 | — | — |
+| **反检测浏览器**（ruyiPage 等） | ✅ | ✅ | ✅ | — | ✅ | — | — | — | — |
 
 > 每格的具体文件、实测耗时与避坑，见上表站点链接的对应子目录 README。
 
@@ -110,6 +112,9 @@ pip install curl_cffi websocket-client
 
 # 数据采集首选 — RPC 直达 pajax（0.2s/页，签名免逆向）
 python spider_rpc.py 阿莫西林 --max-pages 3
+
+# 最快补环境 — iv8 运行时（pip 环境，0.65s 出 cookie）
+pip install iv8 && python spider_iv8.py --kw 阿莫西林
 
 # 页面验证 — sdenv 链式（npm sdenv）或 CDP 零注入
 python spider_sdenv_chain.py
@@ -191,6 +196,7 @@ python spider_sdenv_chain.py
 | **1. 纯手写 VM** | rs6_crack.js（`--mode=full`） | **零依赖**（纯 Node 内置） | ~1.5s | 瑞数6基础版（无 eval 检测链/数组膨胀惩罚） | 甘肃发改（412→200 一次过） |
 | **2. jsdom 补环境** | sdenv / jsdom_gen（同步 flush）/ round_gen（真实 timer）/ redirect-blocked | npm sdenv（Windows SDK 编译 canvas） | 2-14s（税务局 ~17s） | 瑞数6加强版（环境深层检测）——**环境是关键，timer 时序无关**（jsdom+同步flush 421 chars 实证） | 站点E / 高校1-5 / 深大总医院 / 药监局 / **税务局（2/2，escape 保留修复）** / **专利局检索站（9.9-20s）** |
 | **2b. 零依赖手写补环境** | nodenv（vm.createContext + DONT_CONTEXTIFY + 键集对齐 + fakePTS） | **零依赖**（纯 Node 内置） | 13.2-13.8s | 同档2加强版——手写环境**可打通但工程量大**（8 处环境差异 + 宿主侧时间源 bug） | **专利局检索站（9/9，2026-09-01 打通）** / **大学站 3 校（15/15，2026-09-02 移植）** |
+| **2c. iv8 运行时** | iv8（Python 原生 V8 + C++ 层浏览器环境，pip 一条命令） | pip iv8（社区版非商用） | **0.65s 出 cookie** | 同档2/2b——第三方 C++ 环境，保真度高于 jsdom/手写，无需任何补丁 | **药监局（575 条 200，2026-09-05 实测 0.65s）、重庆税务（一次通过）、欧冶（一次通过）**；海关 ❌（http+Secure 变体，边界样本归档） |
 | **3. 浏览器** | CDP 零注入 / ruyiPage / CloakBrowser / RPC / DrissionPage / Camoufox | Chrome/Firefox | 1-18s | Cookie-TLS 强绑定 / IP 风控 / 极新 VM 形态 | 大学站 5/5（ruyiPage 2-3s/站最快）、深大总医院（CDP 3s） |
 | **★ 纯算法** 🔒 | rs-reverse（pysunday） | Node | ~1s | **basearr 适配器匹配的站点**（作者适配 + 自制适配器）——**文档开源、可运行代码不开源**（防滥用，见 [开源策略](#开源策略)） | **国家电网招聘网（200 验证）、税务局（len173 自制适配器，7/7 轮 200）、药监局（len160 适配器 + 提升器 v7，10/10）、专利局公布公告站（len133，2026-09-03 200）、高校组 2026 变体（兰州+南师，2026-09-05 200）、维普期刊（realDf 链，5/5 轮 200）** |
 
@@ -203,7 +209,7 @@ flowchart TD
   B -- 未命中 --> D{"手写 VM rs6_crack<br>试一轮通过?"}
   D -- 通过 --> E["档1 零依赖生产首选<br>基础版瑞数"]
   D -- 分叉 --> F{"VM 检测分叉<br>(Invalid array length)?"}
-  F -- 是 --> G["档2 jsdom 补环境<br>sdenv / nodenv"]
+  F -- 是 --> G["档2 jsdom 补环境<br>sdenv / nodenv / iv8"]
   F -- 否 --> H["Cookie 被拒 / TLS 绑定 / 极端检测"]
   H --> I["档3 浏览器<br>ruyiPage > CDP 零注入 > 其他"]
 ```
@@ -278,6 +284,7 @@ sequenceDiagram
 |----|------|------|
 | ✅ 全开源 | **浏览器方案**（CDP / ruyiPage / Camoufox / DrissionPage / CloakBrowser / RPC） | 代码与文档全部提供，可直接复现 |
 | ✅ 全开源 | **sdenv 补环境** | 代码与文档全部提供 |
+| ✅ 全开源 | **iv8 运行时**（pip 安装的第三方 C++ 环境） | 代码与文档全部提供；iv8 本体为第三方社区版（非商用许可），请自行 `pip install iv8` |
 | ⚠️ 谨慎展示 | **node 原生手写补环境**（nodenv 九件套） | 出于展示技术实力开源，仅限合规学习使用 |
 | 🔒 只展示不复现 | **纯算法**（rs-reverse 适配 / 自制生成器，🔒 标记） | **技术文档开源、可运行代码不开源**——重点告诉别人「我可以」，不让别人复现 |
 
